@@ -8,16 +8,22 @@ use App\Models\KeywordRecord;
 use Illuminate\Support\Facades\Http;
 use Goutte;
 use Rap2hpoutre\FastExcel\FastExcel;
+use GuzzleHttp\Client;
 
 class KeywordController extends Controller
 {
 
     public function index()
     {
-        $keywords = Keyword::paginate(5);
+        $records = [];
+        $keywords = Keyword::paginate(10);
         $scanned_ids = KeywordRecord::pluck('keyword_id')->groupBy('keyword_id')->first();
-        $records = Keyword::whereIn('id', $scanned_ids)->get();
-        // dd($records);
+
+        if($scanned_ids != null){
+
+            $records = Keyword::whereIn('id', $scanned_ids)->get();
+
+        }
         return view('dashboard', ['keywords' => $keywords , 'records' => $records]);
     }
     public function addKeyword(Request $request)
@@ -64,6 +70,11 @@ class KeywordController extends Controller
     {
         $keyword = Keyword::where('id' , $id)->first();
         
+        $client = new Client();
+        $response = $client->get('https://example.com/api/resource');
+        $body = $response->getBody()->getContents();
+        $data = json_decode($body, true); 
+        
         if(isset($keyword->id)){
             // dd($keyword->keyword_records);
             return view('keyword_detail' , ['keyword' => $keyword]);
@@ -108,4 +119,5 @@ class KeywordController extends Controller
         return (new FastExcel($data))->download('file.xlsx');
 
     }
+
 }

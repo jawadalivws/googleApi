@@ -29,7 +29,7 @@
   word-wrap: break-word; 
 }
         .ti-trash{
-            color:red;
+            /* color:red; */
         }
         .submit{
             width: 15% !important;
@@ -37,6 +37,9 @@
             color:white;
             border-color: black;
         }
+        .fixed-size-cell {
+      width: 250px;
+    }
     </style>
 </head>
 
@@ -100,6 +103,12 @@
                         </div>
                     </div>
                 </div>
+                <div class="pull-right" style="margin-top:-2%;">
+                <form action="/logout" method="post">
+                @csrf
+                    <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
+                </form>
+                </div>
             </div>
             <!-- header area end -->
             <div class="main-content-inner">
@@ -126,19 +135,19 @@
                                         <table class="dbkit-table">
                                             <tr class="heading-td">
                                                 <td class="mv-icon">Sr#</td>
-                                                <td class="coin-name">Keyword</td>
-                                                <td class="coin-name">Title</td>
-                                                <td class="coin-name">Email</td>
+                                                <td class="coin-name" style="margin-left: -8%">Keyword</td>
+                                                <td class="coin-name" style="margin-right: 4%">Title</td>
+                                                <td class="coin-name" style="margin-left: -2%">Email</td>
                                                 <td class="coin-name">Contact</td>
                                             </tr>    
                                             @if(count($keyword->keyword_records) > 0)                                
                                             @foreach($keyword->keyword_records as $data)
                                             <tr class="text-end">
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $keyword->name }}</td>
-                                                <td colspan="3">{!! wordwrap($data->title, 30,'<br>') !!}</td>
+                                                <td class="fixed-size-cell">{{ $keyword->name }}</td>
+                                                <td style="width: 300px;">{!! wordwrap($data->title, 40,'<br>') !!}</td>
                                                 <!-- https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose='new -->
-                                                <td>{{ $data->email }}</td>
+                                                <td class="fixed-size-cell">{{ $data->email }}</td>
                                                 @php($contact = 'Contact us')
                                                 @if($data->url == '')
                                                 @php($contact = '--')

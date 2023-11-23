@@ -20,13 +20,18 @@
     <link rel="stylesheet" href="{{ asset('assets/css/default-css.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css')}}">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
-
     <!-- modernizr css -->
-    <script src="assets/js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="{{ asset('assets/js/vendor/modernizr-2.8.3.min.js')}}"></script>
     <style>
+        .break-line {
+  word-wrap: break-word; 
+}
         .ti-trash{
-            color:red;
+            /* color:red; */
         }
         .submit{
             width: 15% !important;
@@ -34,6 +39,9 @@
             color:white;
             border-color: black;
         }
+        .fixed-size-cell {
+      width: 250px;
+    }
     </style>
 </head>
 
@@ -52,7 +60,7 @@
         <div class="sidebar-menu">
             <div class="sidebar-header">
                 <div class="logo">
-                    <a href="/"><img src="assets/images/icon/logo.png" alt="logo"></a>
+                    <a href="/"><img src="{{ asset('assets/images/icon/logo.png')}}" alt="logo"></a>
                 </div>
             </div>
             <div class="main-menu">
@@ -97,13 +105,20 @@
                         </div>
                     </div>
                 </div>
+                <div class="pull-right" style="margin-top:-2%;">
+                <form action="/logout" method="post">
+                @csrf
+                    <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
+                </form>
+                </div>
             </div>
             <!-- header area end -->
             <div class="main-content-inner">
+                <!-- market value area start -->
                 @if(session()->has('success'))
                 <div class="alert alert-success mt-5">
-                {{session()->get('success')}}
-                <!-- <script>
+                    {{session()->get('success')}}
+                    <!-- <script>
                         showSuccessMessage("{{ session()->get('success') }}")
                     </script> -->
                 </div>
@@ -114,23 +129,22 @@
                     </div>
                 @endif
                 <form action="/export" method="post" id="search" class="mt-5">
-                            @csrf
-                            <div class="row">
-                                <div class="col-md-4">
-                                <select class="form-control p-2" name="keyword" id="export">
-                                    <option value="" selected>Select Keyword</option>
-                                    @foreach($records as $record)
-                                    <option value="{{ $record->id }}">{{ $record->name }}</option>
-                                @endforeach
-                                </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <input type="submit" class="btn btn-primary" value="Export">
-                                </div>
-                            </div>                           
-                    </form>
+                    <input type="hidden" name="_token" value="H8HO4rRMYm3zs1u4HvOwthZ98bVx13CLVBJSL1Hu">                            <div class="row">
+                        <div class="col-md-3 offset-8">
+                        <select class="form-control p-2" name="keyword" id="export" style="height: fit-content;">
+                            <option value="" selected="">Select Keyword</option>
+                            @foreach($records as $record)
+                            <option value="{{ $record->id }}">{{ $record->name }}</option>
+                            @endforeach
+                        </select>
+                        </div>
+                        <div class="col-md-1">
+                            <input type="submit" class="btn btn-primary" value="Export">
+                        </div>
+                    </div>                           
+                </form>
                 <div class="row mt-5 mb-5">
-                    <div class="col-12 mb-5">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="market-status-table mt-4">
@@ -138,31 +152,35 @@
                                         <table class="dbkit-table">
                                             <tr class="heading-td">
                                                 <td class="mv-icon">Sr#</td>
-                                                <td class="coin-name">Keyword</td>
-                                                <td class="coin-name">Status</td>
-                                                <td class="coin-name">Action</td>
-                                            </tr>                                    
+                                                <td class="coin-name" style="margin-left: -7%">Keyword</td>
+                                                <td class="coin-name" style="margin-right: 3%">Status</td>
+                                                <td class="coin-name" style="margin-left: -2%">Action</td>
+                                            </tr>    
                                             @foreach($keywords as $keyword)
-                                            @php($scan = "Unscanned")
-                                            @php($class = 'btn btn-danger')
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $keyword->name }}</td>
+                                                <td class="fixed-size-cell">{{ $keyword->name }}</td>
                                                 @if(count($keyword->keyword_records) > 0)
-                                                @php($scan = "scanned")
-                                                @php($class = 'btn btn-success')
+
+                                                @php($class = 'label label-success')
+                                                @php($scan = 'Scanned')
+
+                                                @else
+
+                                                @php($class = 'label label-danger')
+                                                @php($scan = 'Unscanned')
+                                                
                                                 @endif
-                                                <td class="{{ $class }} text-white">{{ $scan }}</td>
+                                                <td class="fixed-size-cell"><span for="" class="{{ $class }}">{{ $scan }}</span></td>
                                                 <td>
-                                                    <a href="#" onclick="deleteKeyword('{{ $keyword->id }}')"><i class="ti-trash"></i></a>
-                                                    <a href="{{ route('keyword_detail' , ['id'=>$keyword->id]) }}"><i class="ti-eye"></i></a>
+                                                    <a href="#" onclick="deleteKeyword({{$keyword->id}})" class="btn btn-danger btn-sm"><i class="ti-trash"></i></a>
+                                                    <a href="/keyword/detail/{{$keyword->id}}" class="btn btn-info btn-sm"><i class="ti-eye"></i></a>
                                                 </td>
                                             </tr>
                                             @endforeach
                                         </table>
                                     </div>
                                 </div>
-                                {{ $keywords->links() }}
                             </div>
                         </div>
                     </div>
@@ -174,7 +192,9 @@
         <!-- footer area start-->
         <footer>
             <div class="footer-area">
-                <p>© Copyright 2018. All right reserved. Template by <a href="https://colorlib.com/wp/">Colorlib</a>.</p>
+                <p>© Copyright 2018. All right reserved.
+                     <!-- Template by <a href="#">Colorlib</a>.-->
+                    </p> 
             </div>
         </footer>
         <!-- footer area end-->
@@ -387,6 +407,7 @@
     <script src="{{ asset('assets/js/scripts.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+
     <script>
 
         function showSuccessMessage(message)
@@ -396,9 +417,8 @@
         function searchWord()
         {
             var formData = $("#keywordForm").serialize();
-            // document.getElementById("content").innerHtml = '';
             $.ajax({
-                url: '/add/keyword',
+                url: 'add/keyword',
                 type: 'POST',
                 data:formData,
                 dataType: 'json',
@@ -415,15 +435,6 @@
                             location.reload();
                         });
                     }
-
-                    // for (var i = 0; i < response.data.items.length; i++) {
-                    //     var item = response.data.items[i];
-                    //     // Make sure HTML in item.htmlTitle is escaped.
-                    //     var li = document.createElement("li");
-                    //     li.textContent = item.title;
-                    //     document.getElementById("content").append(li);
-                    // }
-
                 },
                 error:function(errors){
                     console.log(errors);

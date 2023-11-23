@@ -13,10 +13,18 @@ use App\Http\Controllers\KeywordController;
 |
 */
 
-Route::get('/', [KeywordController::class , 'index'])->name('view_keyword');
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::post('/add/keyword' , [KeywordController::class , 'addKeyword'])->name('add_keyword');
-Route::get('/delete/keyword/{id}' , [KeywordController::class , 'deleteKeyword'])->name('delete_keyword');
-Route::get('/keyword/detail/{id}' , [KeywordController::class , 'keywordDetail'])->name('keyword_detail');
-Route::get('/delete/email/{id}' , [KeywordController::class , 'deleteEmail'])->name('delete_email');
-Route::post('/export' , [KeywordController::class , 'export'])->name('export');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth'])->name('dashboard');
+
+
+Route::get('/', [KeywordController::class , 'index'])->name('dashboard')->middleware('auth');
+Route::post('/add/keyword', [KeywordController::class , 'addKeyword'])->name('add_keyword');
+Route::get('/keyword/detail/{id}', [KeywordController::class , 'keywordDetail'])->name('keyword_detail');
+// Route::get('/delete/keyword', [KeywordController::class , 'index'])->name('dashboard');
+Route::post('/export', [KeywordController::class , 'export'])->name('export');
+require __DIR__.'/auth.php';
