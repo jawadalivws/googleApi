@@ -17,6 +17,7 @@ class CreateKeywordRecordsTable extends Migration
             $table->id();
             $table->unsignedbigInteger('keyword_id');
             $table->foreign('keyword_id')->references('id')->on('keywords')->onDelete('cascade');
+            $table->string('title')->nullable();
             $table->string('email')->nullable()->unique();
             $table->string('contact')->nullable()->unique();
             $table->timestamps();

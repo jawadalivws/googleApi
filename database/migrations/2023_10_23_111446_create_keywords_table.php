@@ -16,6 +16,7 @@ class CreateKeywordsTable extends Migration
         Schema::create('keywords', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->text('response')->nullable();
             $table->timestamps();
         });
     }
