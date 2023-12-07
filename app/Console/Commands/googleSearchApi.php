@@ -58,7 +58,7 @@ class googleSearchApi extends Command
                 $search_id = env('GOOGLE_SEARCH_ENGINE_ID');
                 $results_per_page = 10;
                 $page = 1;
-
+                
                 do{
 
                     try{
@@ -70,15 +70,16 @@ class googleSearchApi extends Command
     
                         // }else{
                             $response = HTTP::get('https://www.googleapis.com/customsearch/v1' , [
-                                'key' => "AIzaSyBnUTvzxFhF996sa_jjvgwAMVBcTSufzDk",
-                                'cx' => "d21560e79f2914218",
+                                'key' => "AIzaSyCYTFPUbj071ZBfU3-x0vwIfTRJEf1bzw0",
+                                'cx' => "14b349f5ce4ea40a7",
                                 'q' => $word->name,
                                 'start' => ($page - 1) * $results_per_page + 1, // Calculate the starting index for the current page
                                 'num' => $results_per_page,
                             ]);
-                    
+                            // dump($word);
                             $data = json_encode($response->getBody());
-        
+    
+                            \Log::info("data :" .$data);
                             Keyword::where('id' , $word->id)->update([
                                 'response' => $response,
                             ]);
@@ -86,7 +87,7 @@ class googleSearchApi extends Command
                             $data = json_decode($response->getBody());
                         // }
     
-                        \Log::info($data);
+                        // \Log::info($data);
     
                         // dd($data);
     
