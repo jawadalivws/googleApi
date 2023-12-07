@@ -160,7 +160,8 @@
                                                 <td class="coin-name" style="margin-left: -7%">Keyword</td>
                                                 <td class="coin-name" style="margin-right: 3%">Status</td>
                                                 <td class="coin-name" style="margin-left: -2%">Action</td>
-                                            </tr>    
+                                            </tr>   
+                                            @if(count($keywords) > 0) 
                                             @foreach($keywords as $keyword)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
@@ -183,6 +184,9 @@
                                                 </td>
                                             </tr>
                                             @endforeach
+                                            @else
+                                            <p style="font-size:22px;">No Data</p>
+                                            @endif
                                         </table>
                                         <div class="mt-4">
                                             {!! $keywords->links() !!}

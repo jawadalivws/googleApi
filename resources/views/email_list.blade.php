@@ -68,7 +68,7 @@
                             <li class="{{ request()->is('/') ? 'active' : '' }}">
                                 <a href="/"><i class="ti-dashboard"></i><span>dashboard</span></a>
                             </li>
-                            <li class="{{ request()->is('/email/list*') ? 'active' : '' }}">
+                            <li class="{{ request()->is('/email/list') ? 'active' : '' }}">
                                 <a href="/email/list"><i class="ti-email"></i><span>Email List</span></a>
                             </li>
                             <!-- <li>
@@ -159,7 +159,7 @@
                                             </tr>
                                             @endforeach
                                             @else
-                                            <p>No Data</p>
+                                            <p style="font-size:22px;">No Data</p>
                                             @endif
                                         </table>
                                         <div class="mt-4">
