@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Dashboard</title>
+    <title>Keyword Details</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/png" href="assets/images/icon/favicon.ico">
     <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
@@ -20,10 +20,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/default-css.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css')}}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
     <!-- modernizr css -->
     <script src="{{ asset('assets/js/vendor/modernizr-2.8.3.min.js')}}"></script>
     <style>
@@ -131,23 +129,6 @@
                         {{ $errors->first('keyword') }}
                     </div>
                 @endif
-                <form action="/export" method="post" id="search" class="mt-5">
-                @csrf
-                    <!-- <input type="hidden" name="_token" value="H8HO4rRMYm3zs1u4HvOwthZ98bVx13CLVBJSL1Hu">-->
-                      <div class="row">
-                        <div class="col-md-3 offset-8">
-                        <select class="form-control p-2" name="keyword" id="export" style="height: fit-content;">
-                            <option value="" selected="">Select Keyword</option>
-                            @foreach($records as $record)
-                            <option value="{{ $record->id }}">{{ $record->name }}</option>
-                            @endforeach
-                        </select>
-                        </div>
-                        <div class="col-md-1">
-                            <input type="submit" class="btn btn-primary" value="Export">
-                        </div>
-                    </div>                           
-                </form>
                 <div class="row mt-5 mb-5">
                     <div class="col-12">
                         <div class="card">
@@ -157,35 +138,32 @@
                                         <table class="dbkit-table">
                                             <tr class="heading-td">
                                                 <td class="mv-icon">Sr#</td>
-                                                <td class="coin-name" style="margin-left: -7%">Keyword</td>
-                                                <td class="coin-name" style="margin-right: 3%">Status</td>
-                                                <td class="coin-name" style="margin-left: -2%">Action</td>
+                                                <td class="coin-name" style="margin-left: -8%">Keyword</td>
+                                                <td class="coin-name" style="margin-right: 4%">Title</td>
+                                                <td class="coin-name" style="margin-left: -2%">Email</td>
+                                                <td class="coin-name">Contact</td>
                                             </tr>    
-                                            @foreach($keywords as $keyword)
-                                            <tr>
+                                            @if(count($email_list) > 0)                                
+                                            @foreach($email_list as $data)
+                                            <tr class="text-end">
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td class="fixed-size-cell">{{ $keyword->name }}</td>
-                                                @if(count($keyword->keyword_records) > 0)
-
-                                                @php($class = 'label label-success')
-                                                @php($scan = 'Scanned')
-
-                                                @else
-
-                                                @php($class = 'label label-danger')
-                                                @php($scan = 'Unscanned')
-                                                
+                                                <td class="fixed-size-cell">{{ $data->keywords->name }}</td>
+                                                <td style="width: 300px;">{!! wordwrap($data->title, 40,'<br>') !!}</td>
+                                                <!-- https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose='new -->
+                                                <td class="fixed-size-cell">{{ $data->email }}</td>
+                                                @php($contact = 'Contact us')
+                                                @if($data->url == '')
+                                                @php($contact = '--')
                                                 @endif
-                                                <td class="fixed-size-cell"><span for="" class="{{ $class }}">{{ $scan }}</span></td>
-                                                <td>
-                                                    <a href="#" onclick="deleteKeyword({{$keyword->id}})" class="btn btn-danger btn-sm"><i class="ti-trash"></i></a>
-                                                    <a href="/keyword/detail/{{$keyword->id}}" class="btn btn-info btn-sm"><i class="ti-eye"></i></a>
-                                                </td>
+                                                <td class="break-line" colspan="3"><a title="{{$data->url}}" href="{{$data->url}}">{{ $contact }}</a></td>
                                             </tr>
                                             @endforeach
+                                            @else
+                                            <p>No Data</p>
+                                            @endif
                                         </table>
                                         <div class="mt-4">
-                                            {!! $keywords->links() !!}
+                                            {!! $email_list->links() !!}
                                         </div>
                                     </div>
                                 </div>
@@ -449,45 +427,6 @@
                     // swal.fire('Error' , errors);
                 }
             });
-        }
-
-        function deleteKeyword(id)
-        {
-
-            swal.fire({
-                title: 'Are you sure',
-                text: 'You want to delete the keyword',
-                confirmButtonText: 'Yes',
-                showCancelButton: true,
-                cancelButtonText: 'No',
-            }).then(function(result){
-
-                if(result.value){
-                    $.ajax({
-                    url: '/delete/keyword/'+id,
-                    type : 'get',
-                    dataType: 'json',
-                    data:{id , id},
-                    success: function(response){
-                    swal.fire({
-                            title:'success',
-                            text: response.message,
-                            type: 'success',
-                            confirmButtonText:'OK'
-                        }).then(function(){
-                            location.reload();
-                        });
-                    },
-                    error: function(response){
-                        console.log(response)
-                        swal.fire('Error' , 'Something went wrong' , 'error')
-                    }
-
-                });
-
-                }
-            });
-
         }
 
     </script>

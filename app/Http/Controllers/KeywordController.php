@@ -46,8 +46,9 @@ class KeywordController extends Controller
         // }
     }
 
-    public function deleteKeyword($id)
+    public function deleteKeyword(Request $request)
     {
+        $id = $request->id;
         $exist = Keyword::where('id' , $id)->first();
 
         if($exist)
@@ -70,11 +71,6 @@ class KeywordController extends Controller
     {
         $keyword = Keyword::where('id' , $id)->first();
         
-        $client = new Client();
-        $response = $client->get('https://example.com/api/resource');
-        $body = $response->getBody()->getContents();
-        $data = json_decode($body, true); 
-        
         if(isset($keyword->id)){
             // dd($keyword->keyword_records);
             return view('keyword_detail' , ['keyword' => $keyword]);
@@ -84,6 +80,13 @@ class KeywordController extends Controller
             return back()->with('error' , 'Keyword not found.');
             
         }
+    }
+
+    public function emailList(Request $request)
+    {
+        $email_list = KeywordRecord::paginate(20);
+
+        return view('email_list' , ['email_list' => $email_list]);
     }
     
     public function deleteEmail($id)
@@ -105,7 +108,7 @@ class KeywordController extends Controller
 
     public function export(Request $request)
     {
-
+// dd($request);
         if($request->keyword == ''){
            
             $data = KeywordRecord::select('title' , 'email')->get();
