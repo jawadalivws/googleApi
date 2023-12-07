@@ -65,11 +65,11 @@
                 <div class="menu-inner">
                     <nav>
                         <ul class="metismenu" id="menu">
-                            <li class="active">
+                            <li class="{{ request()->is('/') ? 'active' : '' }}">
                                 <a href="/"><i class="ti-dashboard"></i><span>dashboard</span></a>
                             </li>
-                            <li class="active">
-                                <a href="/email/list"><i class="ti-email"></i><span>Email List</span></a>
+                            <li class="{{ request()->is('/email/list*') ? 'active' : '' }}">
+                                <a href="email/list"><i class="ti-email"></i><span>Email List</span></a>
                             </li>
                             <!-- <li>
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Charts</span></a>
