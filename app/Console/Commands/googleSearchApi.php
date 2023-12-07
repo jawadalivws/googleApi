@@ -181,7 +181,7 @@ class googleSearchApi extends Command
 
                               }catch(\Throwable $e){
                                 // dump("Error: " . $e->getMessage());
-                                \Log::info("data insert". $e->getMessage());
+                                \Log::info("Error ". $e->getMessage());
                                 $flag = true;
                             }
           
