@@ -19,7 +19,7 @@ class CreateKeywordRecordsTable extends Migration
             $table->foreign('keyword_id')->references('id')->on('keywords')->onDelete('cascade');
             $table->string('title')->nullable();
             $table->string('email')->nullable()->unique();
-            $table->string('contact')->nullable()->unique();
+            $table->string('url')->nullable()->unique();
             $table->timestamps();
         });
     }
