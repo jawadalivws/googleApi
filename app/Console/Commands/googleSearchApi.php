@@ -77,11 +77,11 @@ class googleSearchApi extends Command
                                 'num' => $results_per_page,
                             ]);
                     
-                            $data = json_encode($response->getBody());
+                            // $data = json_encode($response->getBody());
         
-                            Keyword::where('id' , $word->id)->update([
-                                'response' => $response,
-                            ]);
+                            // Keyword::where('id' , $word->id)->update([
+                            //     'response' => $response,
+                            // ]);
                             
                             $data = json_decode($response->getBody());
                         // }
