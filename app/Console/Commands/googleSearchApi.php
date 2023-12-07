@@ -53,7 +53,7 @@ class googleSearchApi extends Command
         $record = array();
         if(count($words) > 0){
             foreach($words as $word){
-
+                \Log::info("foreach");
                 $api_key = env('GOOGLE_SEARCH_API_KEY');
                 $search_id = env('GOOGLE_SEARCH_ENGINE_ID');
                 $results_per_page = 10;
@@ -94,8 +94,10 @@ class googleSearchApi extends Command
                         $allEmails = array();
                         $flag = false;
                         if(isset($data->items)){
+                            \Log::info("data");
                             $results = $data->items;
                             foreach($results as $item){
+                                \Log::info("item");
                                 // dump($item->link);
                               try{
 
@@ -159,14 +161,14 @@ class googleSearchApi extends Command
                                         $dataToInsert = [];
         
                                         if($email != ''){
-        
+                                            \Log::info("email found");
                                             $dataToInsert[] = [
                                                 'keyword_id' => $word->id,
                                                 'email' => $email,
                                                 'title' => $item->title,
                                                 'url' => $contact,
                                             ];
-                        
+                    
                                             if (!empty($dataToInsert)) {
                                                 KeywordRecord::insert($dataToInsert);
                                             }
