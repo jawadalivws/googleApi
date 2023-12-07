@@ -70,8 +70,8 @@ class googleSearchApi extends Command
     
                         // }else{
                             $response = HTTP::get('https://www.googleapis.com/customsearch/v1' , [
-                                'key' => "AIzaSyCYTFPUbj071ZBfU3-x0vwIfTRJEf1bzw0",
-                                'cx' => "14b349f5ce4ea40a7",
+                                'key' => "AIzaSyB0BGGeRNKp9Y_Sb8kLy4DCxOELJ3tQdro",
+                                'cx' => "41f26495cdd8c4ed4",
                                 'q' => $word->name,
                                 'start' => ($page - 1) * $results_per_page + 1, // Calculate the starting index for the current page
                                 'num' => $results_per_page,
