@@ -170,6 +170,7 @@ class googleSearchApi extends Command
                                             ];
                     
                                             if (!empty($dataToInsert)) {
+                                                \Log::info("data insert");
                                                 KeywordRecord::insert($dataToInsert);
                                             }
         
