@@ -21,6 +21,7 @@ class CreateKeywordRecordsTable extends Migration
             $table->string('email')->nullable()->unique();
             $table->string('url')->nullable();
             $table->timestamps();
+            
         });
     }
 
