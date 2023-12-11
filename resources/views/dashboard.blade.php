@@ -93,17 +93,17 @@
             <div class="header-area">
                 <div class="row align-items-center">
                     <!-- nav and search button -->
-                    <div class="col-md-6 col-sm-8 clearfix">
+                    <div class="col-md-12 col-sm-12 clearfix">
                         <div class="nav-btn pull-left">
                             <span></span>
                             <span></span>
                             <span></span>
                         </div>
-                        <div class="search-box pull-left">
+                        <div class="search-box pull-left" style="width:90%;">
                             <form action="/add/keyword" method="post" id="keywordForm">
                                 @csrf
-                                <input type="text" id="keyword" name="keyword" placeholder="Search..." required>
-                                <input type="submit" class="btn submit" value="Add">
+                                <input type="text" id="keyword" name="keyword" placeholder="Enter a Keyword..." style="width: 57%;" required>
+                                <input type="submit" class="btn submit" value="Add Keyword" style="width: 9%!important;">
                             </form>
                         </div>
                     </div>
@@ -131,23 +131,48 @@
                         {{ $errors->first('keyword') }}
                     </div>
                 @endif
-                <form action="/export" method="post" id="search" class="mt-5">
-                @csrf
-                    <!-- <input type="hidden" name="_token" value="H8HO4rRMYm3zs1u4HvOwthZ98bVx13CLVBJSL1Hu">-->
-                      <div class="row">
-                        <div class="col-md-3 offset-8">
-                        <select class="form-control p-2" name="keyword" id="export" style="height: fit-content;">
-                            <option value="" selected="">Select Keyword</option>
-                            @foreach($records as $record)
-                            <option value="{{ $record->id }}">{{ $record->name }}</option>
-                            @endforeach
-                        </select>
-                        </div>
-                        <div class="col-md-1">
-                            <input type="submit" class="btn btn-primary" value="Export">
-                        </div>
-                    </div>                           
-                </form>
+                <div class="row">
+                    <div class="col-md-5 mt-5">
+                        <form action="/" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <label for="">Search BY Title</label>
+                                        <input type="text" class="form-control" id="searchFilter" name="search" value="{{ Session::get('keyword');}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-5">
+                                    <input type="submit" id="submit" value="Search" class="btn btn-primary">
+                                    <input type="button" onclick="resetForm()" value="Reset" class="btn btn-danger">
+                                </div>
+                            </div>
+                           
+                        </form>
+                    </div>  
+                    <div class="col-md-6 offset-1 mt-5">
+                        <form action="/export" method="post" id="search" class="mt-5">
+                            @csrf
+                            <!-- <input type="hidden" name="_token" value="H8HO4rRMYm3zs1u4HvOwthZ98bVx13CLVBJSL1Hu">-->
+                            <div class="row">   
+                                <div class="col-md-5 offset-5">
+                                    <select class="form-control p-2" name="keyword" id="export" style="height: fit-content;">
+                                        <option value="" selected="">Select Keyword</option>
+                                        @foreach($records as $record)
+                                        <option value="{{ $record->id }}">{{ $record->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-1">
+                                    <input type="submit" class="btn btn-primary" value="Export">
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>                           
+                        </form>
+                    </div>
+                </div>
+
+
                 <div class="row mt-5 mb-5">
                     <div class="col-12">
                         <div class="card">
@@ -493,6 +518,13 @@
             });
 
         }
+
+        function resetForm()
+        {
+            $('#searchFilter').val('');
+            $('#submit').click();
+        }
+
 
     </script>
 </body>

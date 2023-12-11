@@ -20,7 +20,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/default-css.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
     <!-- modernizr css -->
     <script src="{{ asset('assets/js/vendor/modernizr-2.8.3.min.js')}}"></script>
@@ -91,17 +94,17 @@
             <div class="header-area">
                 <div class="row align-items-center">
                     <!-- nav and search button -->
-                    <div class="col-md-6 col-sm-8 clearfix">
+                    <div class="col-md-12 col-sm-12 clearfix">
                         <div class="nav-btn pull-left">
                             <span></span>
                             <span></span>
                             <span></span>
                         </div>
-                        <div class="search-box pull-left">
+                        <div class="search-box pull-left" style="width:90%;">
                             <form action="/add/keyword" method="post" id="keywordForm">
                                 @csrf
-                                <input type="text" id="keyword" name="keyword" placeholder="Search..." required>
-                                <input type="submit" class="btn submit" value="Add">
+                                <input type="text" id="keyword" name="keyword" placeholder="Search..." required style="width:57%;">
+                                <input type="submit" class="btn submit" value="Add Keyword" style="width:9%!important;">
                             </form>
                         </div>
                     </div>
@@ -129,6 +132,28 @@
                         {{ $errors->first('keyword') }}
                     </div>
                 @endif
+                <form action="/email/list" method="post">
+                    @csrf
+                    <div class="row mt-5">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Search BY Title</label>
+                                <input type="text" class="form-control" id="title" name="title" value="{{ Session::get('title');}}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Search BY Email</label>
+                                <input type="text" class="form-control" id="email" name="email" value="{{ Session::get('email');}}">
+                            </div>
+                        </div>
+                        <div class="col-md-3 mt-4">
+                            <input type="submit" id="submit" value="Search" class="btn btn-primary mt-3">
+                            <input type="button" value="Reset" onclick="resetForm()" class="btn btn-danger mt-3">
+                        </div>
+                    </div>
+                           
+                </form>
                 <div class="row mt-5 mb-5">
                     <div class="col-12">
                         <div class="card">
@@ -427,6 +452,13 @@
                     // swal.fire('Error' , errors);
                 }
             });
+        }
+
+        function resetForm()
+        {
+            $('#title').val('');
+            $('#email').val('');
+            $('#submit').click();
         }
 
     </script>

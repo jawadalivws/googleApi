@@ -9,14 +9,28 @@ use Illuminate\Support\Facades\Http;
 use Goutte;
 use Rap2hpoutre\FastExcel\FastExcel;
 use GuzzleHttp\Client;
+use Session;
 
 class KeywordController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
+        if(isset($request->search) && !empty($request->search)){
+
+            $keyword = $request->search;
+            Session::put('keyword', $keyword);
+            $keywords = Keyword::where('name' , 'like' , '%'.$keyword.'%')->paginate(10);
+
+        }else{
+
+            if(session('keyword')){
+                session()->forget('keyword');
+            }
+            $keywords = Keyword::paginate(10);
+        }
+
         $records = [];
-        $keywords = Keyword::paginate(10);
         $scanned_ids = KeywordRecord::pluck('keyword_id')->groupBy('keyword_id')->first();
 
         if($scanned_ids != null){
@@ -58,7 +72,7 @@ class KeywordController extends Controller
             if($delete)
             {
                 $data['success'] = true;
-                $data['message'] = 'Word Added Successfully.';
+                $data['message'] = 'Keyword deleted Successfully.';
                 return response()->json($data);
             }
 
@@ -84,7 +98,34 @@ class KeywordController extends Controller
 
     public function emailList(Request $request)
     {
-        $email_list = KeywordRecord::paginate(20);
+        if((isset($request->email) && !empty($request->email)) || (isset($request->title) && !empty($request->title))){
+           
+            $title = $request->input('title');
+            $email = $request->input('email');
+
+            $query = KeywordRecord::query();
+            if(!empty($title)){
+                Session::put('title', $title);
+                $query->where('title', 'like', '%' . $title . '%');
+            }
+            if(!empty($email)){
+
+                Session::put('email', $email);
+                $query->orWhere('email', $email);
+            }
+
+            $email_list = $query->paginate(20);
+
+        }else{
+
+            if(session('title')){
+                session()->forget('title');
+            }
+            if(session('email')){
+                session()->forget('email');
+            }
+            $email_list = KeywordRecord::paginate(20);
+        }
 
         return view('email_list' , ['email_list' => $email_list]);
     }
@@ -108,7 +149,7 @@ class KeywordController extends Controller
 
     public function export(Request $request)
     {
-// dd($request);
+        // dd($request);
         if($request->keyword == ''){
            
             $data = KeywordRecord::select('title' , 'email')->get();
@@ -123,4 +164,23 @@ class KeywordController extends Controller
 
     }
 
+    public function searchKeyword(Request $request)
+    {
+        $title = $request->input('title');
+        $email = $request->input('email');
+
+        $query = KeywordRecord::query();
+        if(!empty($title)){
+            Session::put('title', $title);
+            $query->where('title', 'like', '%' . $title . '%');
+        }
+        if(!empty($email)){
+
+            Session::put('email', $email);
+            $query->orWhere('email', $email);
+        }
+
+        $keyword = $query->paginate(20);
+
+    }
 }

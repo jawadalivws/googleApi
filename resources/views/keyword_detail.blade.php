@@ -20,7 +20,11 @@
     <link rel="stylesheet" href="{{ asset('assets/css/default-css.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
 
     <!-- modernizr css -->
     <script src="{{ asset('assets/js/vendor/modernizr-2.8.3.min.js')}}"></script>
@@ -91,17 +95,17 @@
             <div class="header-area">
                 <div class="row align-items-center">
                     <!-- nav and search button -->
-                    <div class="col-md-6 col-sm-8 clearfix">
+                    <div class="col-md-12 col-sm-12 clearfix">
                         <div class="nav-btn pull-left">
                             <span></span>
                             <span></span>
                             <span></span>
                         </div>
-                        <div class="search-box pull-left">
+                        <div class="search-box pull-left" style="width:90%;">
                             <form action="/add/keyword" method="post" id="keywordForm">
                                 @csrf
-                                <input type="text" id="keyword" name="keyword" placeholder="Search..." required>
-                                <input type="submit" class="btn submit" value="Add">
+                                <input type="text" id="keyword" name="keyword" style="width:57%;" placeholder="Search..." required>
+                                <input type="submit" class="btn submit" value="Add Keyword" style="width:9%!important;">
                             </form>
                         </div>
                     </div>
@@ -129,39 +133,58 @@
                         {{ $errors->first('keyword') }}
                     </div>
                 @endif
+                <!-- <form action="/email/list" method="post">
+                    @csrf
+                    <div class="row mt-5">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Search BY Title</label>
+                                <input type="text" class="form-control" id="title" name="title" value="{{ Session::get('title');}}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Search BY Email</label>
+                                <input type="text" class="form-control" id="email" name="email" value="{{ Session::get('email');}}">
+                            </div>
+                        </div>
+                        <div class="col-md-3 mt-4">
+                            <input type="submit" id="submit" value="Search" class="btn btn-primary mt-3">
+                            <input type="button" value="Reset" onclick="resetForm()" class="btn btn-danger mt-3">
+                        </div>
+                    </div>
+                           
+                </form> -->
                 <div class="row mt-5 mb-5">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
                                 <div class="market-status-table mt-4">
                                     <div class="table-responsive">
-                                        <table class="dbkit-table">
-                                            <tr class="heading-td">
-                                                <td class="mv-icon">Sr#</td>
-                                                <td class="coin-name" style="margin-left: -8%">Keyword</td>
-                                                <td class="coin-name" style="margin-right: 4%">Title</td>
-                                                <td class="coin-name" style="margin-left: -2%">Email</td>
-                                                <td class="coin-name">Contact</td>
-                                            </tr>    
-                                            @if(count($keyword->keyword_records) > 0)                                
+                                    <table class="dbkit-table" id="myTable">
+                                        <thead class="heading-td">
+                                            <th class="mv-icon orderable">Sr#</th>
+                                            <th class="coin-name" style="margin-left: -8%">Keyword</th>
+                                            <th class="coin-name" style="margin-right: 4%">Title</th>
+                                            <th class="coin-name" style="margin-left: -2%">Email</th>
+                                            <th class="coin-name">Contact</th>
+                                        </thead>    
+                                        @if(count($keyword->keyword_records) > 0)                                
                                             @foreach($keyword->keyword_records as $data)
-                                            <tr class="text-end">
-                                                <td>{{ $loop->iteration }}</td>
-                                                <td class="fixed-size-cell">{{ $keyword->name }}</td>
-                                                <td style="width: 300px;">{!! wordwrap($data->title, 40,'<br>') !!}</td>
-                                                <!-- https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose='new -->
-                                                <td class="fixed-size-cell">{{ $data->email }}</td>
-                                                @php($contact = 'Contact us')
-                                                @if($data->url == '')
-                                                @php($contact = '--')
-                                                @endif
-                                                <td class="break-line" colspan="3"><a title="{{$data->url}}" href="{{$data->url}}">{{ $contact }}</a></td>
-                                            </tr>
+                                                <tr class="text-end">
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td class="fixed-size-cell">{{ $keyword->name }}</td>
+                                                    <td style="width: 300px;">{!! wordwrap($data->title, 40,'<br>') !!}</td>
+                                                    <td class="fixed-size-cell">{{ $data->email }}</td>
+                                                    @php($contact = 'Contact us')
+                                                    @if($data->url == '')
+                                                        @php($contact = '--')
+                                                    @endif
+                                                    <td class="break-line" colspan="3"><a title="{{$data->url}}" href="{{$data->url}}">{{ $contact }}</a></td>
+                                                </tr>
                                             @endforeach
-                                            @else
-                                            <p style="font-size:22px;">No Data</p>
-                                            @endif
-                                        </table>
+                                        @endif
+                                    </table>
                                     </div>
                                 </div>
                             </div>
@@ -390,6 +413,7 @@
     <script src="{{ asset('assets/js/scripts.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <script>
 
@@ -425,7 +449,20 @@
                 }
             });
         }
-
+        $(document).ready(function() {
+            // $('#myTable').DataTable();
+            let table = new DataTable('#myTable', {
+                columns: [
+                    { type: 'num', targets: 0 }, // For Sr#
+                    null, // Keyword
+                    null, // Title
+                    null, // Email
+                    null  // Contact
+                ],
+                order: [[0, 'asc']],
+                // Add other DataTable options as needed
+            });
+        });
     </script>
 </body>
 
