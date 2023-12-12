@@ -103,7 +103,7 @@
                         <div class="search-box pull-left" style="width:90%;">
                             <form action="/add/keyword" method="post" id="keywordForm">
                                 @csrf
-                                <input type="text" id="keyword" name="keyword" placeholder="Search..." required style="width:57%;">
+                                <input type="text" id="keyword" name="keyword" placeholder="Enter a Keyword" required style="width:57%;">
                                 <input type="submit" class="btn submit" value="Add Keyword" style="width:9%!important;">
                             </form>
                         </div>
@@ -138,13 +138,13 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Search BY Title</label>
-                                <input type="text" class="form-control" id="title" name="title" value="{{ Session::get('title');}}">
+                                <input type="text" class="form-control" id="title" name="title" value="{{ Session::get('title');}}" placeholder="Search by Title">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Search BY Email</label>
-                                <input type="text" class="form-control" id="email" name="email" value="{{ Session::get('email');}}">
+                                <input type="text" class="form-control" id="email" name="email" value="{{ Session::get('email');}}" placeholder="Search Email">
                             </div>
                         </div>
                         <div class="col-md-3 mt-4">

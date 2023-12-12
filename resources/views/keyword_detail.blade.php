@@ -104,7 +104,7 @@
                         <div class="search-box pull-left" style="width:90%;">
                             <form action="/add/keyword" method="post" id="keywordForm">
                                 @csrf
-                                <input type="text" id="keyword" name="keyword" style="width:57%;" placeholder="Search..." required>
+                                <input type="text" id="keyword" name="keyword" style="width:57%;" placeholder="Enter a Keyword" required>
                                 <input type="submit" class="btn submit" value="Add Keyword" style="width:9%!important;">
                             </form>
                         </div>
