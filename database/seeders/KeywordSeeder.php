@@ -33,7 +33,7 @@ class KeywordSeeder extends Seeder
             ['name' => 'Software companies Austria'],
         ];
 
-        Keyword::insert($keyword);
+        Keyword::insert($keywords);
 
         echo "done";
     }
