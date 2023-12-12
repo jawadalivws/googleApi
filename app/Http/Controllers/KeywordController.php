@@ -98,23 +98,31 @@ class KeywordController extends Controller
 
     public function emailList(Request $request)
     {
-        if((isset($request->email) && !empty($request->email)) || (isset($request->title) && !empty($request->title))){
-           
-            $title = $request->input('title');
-            $email = $request->input('email');
+        if((isset($request->email) && !empty($request->email)) || (isset($request->title) && !empty($request->title)) || (isset($request->search_keyword) && !empty($request->search_keyword))){ 
+            
+            session()->forget('search_keyword');
+            session()->forget('title');
+            session()->forget('email');
+
+            $title   = $request->input('title');
+            $keyword = $request->input('search_keyword');
+            $email   = $request->input('email');
 
             $query = KeywordRecord::query();
             if(!empty($title)){
                 Session::put('title', $title);
                 $query->where('title', 'like', '%' . $title . '%');
             }
+            if(!empty($keyword)){
+                Session::put('search_keyword', $keyword);
+                $query->where('keyword_id', $keyword);
+            }
             if(!empty($email)){
-
                 Session::put('email', $email);
-                $query->orWhere('email', $email);
+                $query->where('email', 'like', '%' . $email . '%');
             }
 
-            $email_list = $query->paginate(20);
+            $email_list = $query->paginate(50);
 
         }else{
 
@@ -124,10 +132,14 @@ class KeywordController extends Controller
             if(session('email')){
                 session()->forget('email');
             }
-            $email_list = KeywordRecord::paginate(20);
+            if(session('search_keyword')){
+                session()->forget('search_keyword');
+            }
+            $email_list = KeywordRecord::paginate(50);
         }
 
-        return view('email_list' , ['email_list' => $email_list]);
+        $keywords = Keyword::all();
+        return view('email_list' , ['email_list' => $email_list , 'keywords' => $keywords]);
     }
     
     public function deleteEmail($id)

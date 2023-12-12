@@ -137,6 +137,17 @@
                     <div class="row mt-5">
                         <div class="col-md-3">
                             <div class="form-group">
+                                <label for="">Search BY Keyword</label>
+                                <select name="search_keyword" id="search_keyword" class="form-control" style="height: fit-content;">
+                                    <option value="" selected disabled>Select Keyword</option>
+                                    @foreach($keywords as $keyword)
+                                    <option value="{{ $keyword->id }}" @if($keyword->id == Session::get('search_keyword')) selected @endif>{{ $keyword->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
                                 <label for="">Search BY Title</label>
                                 <input type="text" class="form-control" id="title" name="title" value="{{ Session::get('title');}}" placeholder="Search by Title">
                             </div>
