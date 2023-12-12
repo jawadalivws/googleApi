@@ -210,7 +210,9 @@
                                             </tr>
                                             @endforeach
                                             @else
-                                            <p style="font-size:22px;">No Data</p>
+                                            <tr class="text-center">
+                                                <p style="font-size:22px;">No Data</p>
+                                            </tr>
                                             @endif
                                         </table>
                                         <div class="mt-4">

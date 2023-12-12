@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="assets/css/slicknav.min.css">
     <!-- amchart css -->
-    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css"
+        media="all" />
     <!-- others css -->
     <link rel="stylesheet" href="{{ asset('assets/css/typography.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/default-css.css')}}">
@@ -29,20 +30,23 @@
     <!-- modernizr css -->
     <script src="{{ asset('assets/js/vendor/modernizr-2.8.3.min.js')}}"></script>
     <style>
-        .break-line {
-  word-wrap: break-word; 
-}
-        .ti-trash{
-            /* color:red; */
-        }
-        .submit{
-            width: 15% !important;
-            background-color: #007bff !important;
-            color:white;
-            border-color: black;
-        }
-        .fixed-size-cell {
-      width: 250px;
+    .break-line {
+        word-wrap: break-word;
+    }
+
+    .ti-trash {
+        /* color:red; */
+    }
+
+    .submit {
+        width: 15% !important;
+        background-color: #007bff !important;
+        color: white;
+        border-color: black;
+    }
+
+    .fixed-size-cell {
+        width: 250px;
     }
     </style>
 </head>
@@ -104,17 +108,18 @@
                         <div class="search-box pull-left" style="width:90%;">
                             <form action="/add/keyword" method="post" id="keywordForm">
                                 @csrf
-                                <input type="text" id="keyword" name="keyword" style="width:57%;" placeholder="Enter a Keyword" required>
+                                <input type="text" id="keyword" name="keyword" style="width:57%;"
+                                    placeholder="Enter a Keyword" required>
                                 <input type="submit" class="btn submit" value="Add Keyword" style="width:9%!important;">
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="pull-right" style="margin-top:-2%;">
-                <form action="/logout" method="post">
-                @csrf
-                    <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
-                </form>
+                    <form action="/logout" method="post">
+                        @csrf
+                        <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
+                    </form>
                 </div>
             </div>
             <!-- header area end -->
@@ -129,9 +134,9 @@
                 </div>
                 @endif
                 @if ($errors->has('keyword'))
-                    <div class="alert alert-danger mt-5">
-                        {{ $errors->first('keyword') }}
-                    </div>
+                <div class="alert alert-danger mt-5">
+                    {{ $errors->first('keyword') }}
+                </div>
                 @endif
                 <!-- <form action="/email/list" method="post">
                     @csrf
@@ -161,30 +166,41 @@
                             <div class="card-body">
                                 <div class="market-status-table mt-4">
                                     <div class="table-responsive">
-                                    <table class="dbkit-table" id="myTable">
-                                        <thead class="heading-td">
-                                            <th class="mv-icon orderable">Sr#</th>
-                                            <th class="coin-name" style="margin-left: -8%">Keyword</th>
-                                            <th class="coin-name" style="margin-right: 4%">Title</th>
-                                            <th class="coin-name" style="margin-left: -2%">Email</th>
-                                            <th class="coin-name">Contact</th>
-                                        </thead>    
-                                        @if(count($keyword->keyword_records) > 0)                                
+                                        <table class="dbkit-table" id="myTable">
+                                            <thead class="heading-td">
+                                                <th class="mv-icon orderable">Sr#</th>
+                                                <th class="coin-name" style="margin-left: -8%">Keyword</th>
+                                                <th class="coin-name" style="margin-right: 4%">Title</th>
+                                                <th class="coin-name" style="margin-left: -2%">Email</th>
+                                                <th class="coin-name">Contact</th>
+                                            </thead>
+                                            @if(count($keyword->keyword_records) > 0)
                                             @foreach($keyword->keyword_records as $data)
-                                                <tr class="text-end">
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td class="fixed-size-cell">{{ $keyword->name }}</td>
-                                                    <td style="width: 300px;">{!! wordwrap($data->title, 40,'<br>') !!}</td>
-                                                    <td class="fixed-size-cell">{{ $data->email }}</td>
-                                                    @php($contact = 'Contact us')
-                                                    @if($data->url == '')
-                                                        @php($contact = '--')
-                                                    @endif
-                                                    <td class="break-line" colspan="3"><a title="{{$data->url}}" href="{{$data->url}}">{{ $contact }}</a></td>
-                                                </tr>
+                                            <tr class="text-end">
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td class="fixed-size-cell">{{ $keyword->name }}</td>
+                                                <td style="width: 300px;">{!! wordwrap($data->title, 40,'<br>') !!}</td>
+                                                <td class="fixed-size-cell">{{ $data->email }}</td>
+                                                @php($contact = 'Contact us')
+                                                @if($data->url == '')
+                                                @php($contact = '--')
+                                                @endif
+                                                <td class="break-line" colspan="3"><a title="{{$data->url}}"
+                                                        href="{{$data->url}}">{{ $contact }}</a></td>
+                                            </tr>
                                             @endforeach
-                                        @endif
-                                    </table>
+                                            @else
+                                            <tr class="text-center">
+                                                <td></td>
+                                                <td></td>
+                                                <td>
+                                                    <p style="font-size:22px;">No Data</p>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            @endif
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -199,8 +215,8 @@
         <footer>
             <div class="footer-area">
                 <p>© Copyright 2018. All right reserved.
-                     <!-- Template by <a href="#">Colorlib</a>.-->
-                    </p> 
+                    <!-- Template by <a href="#">Colorlib</a>.-->
+                </p>
             </div>
         </footer>
         <!-- footer area end-->
@@ -416,53 +432,55 @@
     <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
     <script>
+    function showSuccessMessage(message) {
+        swal.fire('Success', message, 'success');
+    }
 
-        function showSuccessMessage(message)
-        {
-            swal.fire('Success', message, 'success');
-        }
-        function searchWord()
-        {
-            var formData = $("#keywordForm").serialize();
-            $.ajax({
-                url: 'add/keyword',
-                type: 'POST',
-                data:formData,
-                dataType: 'json',
-                success:function(response){
-                    console.log(response);
-                    if(response.success){
-                        // swal.fire('success' , response.message);
-                        swal.fire({
-                            title:'success',
-                            text: response.message,
-                            type: 'success',
-                            confirmButtonText:'OK'
-                        }).then(function(){
-                            location.reload();
-                        });
-                    }
-                },
-                error:function(errors){
-                    console.log(errors);
-                    // swal.fire('Error' , errors);
+    function searchWord() {
+        var formData = $("#keywordForm").serialize();
+        $.ajax({
+            url: 'add/keyword',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                if (response.success) {
+                    // swal.fire('success' , response.message);
+                    swal.fire({
+                        title: 'success',
+                        text: response.message,
+                        type: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        location.reload();
+                    });
                 }
-            });
-        }
-        $(document).ready(function() {
-            // $('#myTable').DataTable();
-            let table = new DataTable('#myTable', {
-                columns: [
-                    { type: 'num', targets: 0 }, // For Sr#
-                    null, // Keyword
-                    null, // Title
-                    null, // Email
-                    null  // Contact
-                ],
-                order: [[0, 'asc']],
-                // Add other DataTable options as needed
-            });
+            },
+            error: function(errors) {
+                console.log(errors);
+                // swal.fire('Error' , errors);
+            }
         });
+    }
+    $(document).ready(function() {
+        // $('#myTable').DataTable();
+        let table = new DataTable('#myTable', {
+            columns: [{
+                    type: 'num',
+                    targets: 0
+                }, // For Sr#
+                null, // Keyword
+                null, // Title
+                null, // Email
+                null // Contact
+            ],
+            order: [
+                [0, 'asc']
+            ],
+            // Add other DataTable options as needed
+        });
+    });
     </script>
 </body>
 

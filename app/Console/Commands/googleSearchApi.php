@@ -49,8 +49,7 @@ class googleSearchApi extends Command
     {
         $scannedIds = KeywordRecord::groupBy('keyword_id')->pluck('keyword_id');
         $words = Keyword::whereNotIn('id' , $scannedIds)->get();
-        
-        $record = array();
+
         if(count($words) > 0){
             foreach($words as $word){
                 \Log::info("foreach");
@@ -59,6 +58,10 @@ class googleSearchApi extends Command
                 $results_per_page = 10;
                 $page = 1;
                 
+                // AIzaSyB0BGGeRNKp9Y_Sb8kLy4DCxOELJ3tQdro
+                // AIzaSyBLNws_02Wl2y53UCoOv3KKu0RVDalh4zs
+                // AIzaSyD1NxONlC1SzOGW5C1icrGYpjJLKCP6CK4
+                // AIzaSyAnwohGSvvJ_O5sRofH2ZvxKaSsfJr2pN4
                 do{
 
                     try{
@@ -69,8 +72,10 @@ class googleSearchApi extends Command
                         //     $data = json_decode($response);
     
                         // }else{
+                            
+
                             $response = HTTP::get('https://www.googleapis.com/customsearch/v1' , [
-                                'key' => "AIzaSyA89pdNNJqa4_3iYBn-d3WhJOYdALfwuGU",
+                                'key' => "AIzaSyD1NxONlC1SzOGW5C1icrGYpjJLKCP6CK4",
                                 'cx' => "432d043d77144425f",
                                 'q' => $word->name,
                                 'start' => ($page - 1) * $results_per_page + 1, // Calculate the starting index for the current page
