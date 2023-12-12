@@ -98,30 +98,49 @@ class KeywordController extends Controller
 
     public function emailList(Request $request)
     {
-        if((isset($request->email) && !empty($request->email)) || (isset($request->title) && !empty($request->title)) || (isset($request->search_keyword) && !empty($request->search_keyword))){ 
+// dd($request);
+        if(((isset($request->email) && !empty($request->email)) || (isset($request->title) && !empty($request->title)) || (isset($request->search_keyword) && !empty($request->search_keyword))) ||
+        (Session::get('title') != null || Session::get('search_keyword') != null || Session::get('email') != null)){ 
+
+            if($request->input('title') != null){
+
+                $title   = $request->input('title');
+            }elseif(!$request->has('title') && Session::get('title') != null){
+                    $title   = Session::get('title');
+                }
+            if($request->input('email') != null){
+
+                $email   = $request->input('email');
+            }
+            elseif(!$request->has('email') && Session::get('email') != null){
+                $email   = Session::get('email');
+            }
             
+            if($request->input('search_keyword') != null){
+                $search_keyword   = $request->input('search_keyword');
+            }
+            elseif(!$request->has('search_keyword') && Session::get('search_keyword') != null){
+                $search_keyword   = Session::get('search_keyword');
+            }
+// dump(Session::get('search_keyword'));
+// dd(Session::get('email'));
             session()->forget('search_keyword');
             session()->forget('title');
             session()->forget('email');
-
-            $title   = $request->input('title');
-            $keyword = $request->input('search_keyword');
-            $email   = $request->input('email');
 
             $query = KeywordRecord::query();
             if(!empty($title)){
                 Session::put('title', $title);
                 $query->where('title', 'like', '%' . $title . '%');
             }
-            if(!empty($keyword)){
-                Session::put('search_keyword', $keyword);
-                $query->where('keyword_id', $keyword);
+            if(!empty($search_keyword)){
+                Session::put('search_keyword', $search_keyword);
+                $query->where('keyword_id', $search_keyword);
             }
             if(!empty($email)){
                 Session::put('email', $email);
                 $query->where('email', 'like', '%' . $email . '%');
             }
-
             $email_list = $query->paginate(50);
 
         }else{

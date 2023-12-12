@@ -139,7 +139,7 @@
                             <div class="form-group">
                                 <label for="">Search BY Keyword</label>
                                 <select name="search_keyword" id="search_keyword" class="form-control" style="height: fit-content;">
-                                    <option value="" selected disabled>Select Keyword</option>
+                                    <option value="" selected>Select Keyword</option>
                                     @foreach($keywords as $keyword)
                                     <option value="{{ $keyword->id }}" @if($keyword->id == Session::get('search_keyword')) selected @endif>{{ $keyword->name }}</option>
                                     @endforeach
@@ -471,6 +471,7 @@
         {
             $('#title').val('');
             $('#email').val('');
+            $('#search_keyword').val('');
             $('#submit').click();
         }
 
