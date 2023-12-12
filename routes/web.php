@@ -21,7 +21,6 @@ use App\Http\Controllers\KeywordController;
 //     return view('dashboard');
 // })->middleware(['auth'])->name('dashboard');
 
-
 Route::match(['get' ,'post'] ,'/', [KeywordController::class , 'index'])->name('dashboard')->middleware('auth');
 Route::post('/add/keyword', [KeywordController::class , 'addKeyword'])->name('add_keyword')->middleware('auth');
 Route::get('/keyword/detail/{id}', [KeywordController::class , 'keywordDetail'])->name('keyword_detail')->middleware('auth');
