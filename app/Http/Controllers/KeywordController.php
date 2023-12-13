@@ -122,8 +122,7 @@ class KeywordController extends Controller
             elseif(!$request->has('search_keyword') && Session::get('search_keyword') != null){
                 $search_keyword   = Session::get('search_keyword');
             }
-// dump(Session::get('search_keyword'));
-// dd(Session::get('email'));
+
             session()->forget('search_keyword');
             session()->forget('title');
             session()->forget('email');
@@ -180,7 +179,6 @@ class KeywordController extends Controller
 
     public function export(Request $request)
     {
-        // dd($request);
         if($request->keyword == ''){
            
             $data = KeywordRecord::select('title' , 'email')->get();
