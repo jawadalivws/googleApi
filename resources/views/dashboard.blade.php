@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="assets/css/slicknav.min.css">
     <!-- amchart css -->
-    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css"
+        media="all" />
     <!-- others css -->
     <link rel="stylesheet" href="{{ asset('assets/css/typography.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/default-css.css')}}">
@@ -27,20 +28,23 @@
     <!-- modernizr css -->
     <script src="{{ asset('assets/js/vendor/modernizr-2.8.3.min.js')}}"></script>
     <style>
-        .break-line {
-  word-wrap: break-word; 
-}
-        .ti-trash{
-            /* color:red; */
-        }
-        .submit{
-            width: 15% !important;
-            background-color: #007bff !important;
-            color:white;
-            border-color: black;
-        }
-        .fixed-size-cell {
-      width: 250px;
+    .break-line {
+        word-wrap: break-word;
+    }
+
+    .ti-trash {
+        /* color:red; */
+    }
+
+    .submit {
+        width: 15% !important;
+        background-color: #007bff !important;
+        color: white;
+        border-color: black;
+    }
+
+    .fixed-size-cell {
+        width: 250px;
     }
     </style>
 </head>
@@ -93,27 +97,30 @@
             <div class="header-area">
                 <div class="row align-items-center">
                     <!-- nav and search button -->
-                    <div class="col-md-12 col-sm-12 clearfix">
+                    <div class="col-md-11 col-sm-11 clearfix">
                         <div class="nav-btn pull-left">
                             <span></span>
                             <span></span>
                             <span></span>
                         </div>
-                        <div class="search-box pull-left" style="width:90%;">
+                        <div class="search-box pull-left" style="width: 90%;">
                             <form action="/add/keyword" method="post" id="keywordForm">
                                 @csrf
-                                <input type="text" id="keyword" name="keyword" placeholder="Enter a Keyword" style="width: 57%;" required>
-                                <input type="submit" class="btn submit" value="Add Keyword" style="width: 9%!important;">
+                                <input type="text" id="keyword" name="keyword" placeholder="Enter a Keyword"
+                                    style="width: 57%;" required="">
+                                <button type="submit" class="btn btn-primary"
+                                    style="width:9%!important;border-radius: 19px;">Add Keyword</button>
                             </form>
                         </div>
                     </div>
+                    <div class="col-md-1 col-sm-1 pull-right">
+                        <!-- <form action="/logout" method="post">
+                        <input type="hidden" name="_token" value="FKxz20wHpVV1t3ERwkA1VnrwGpdoQrDGeJKYwyDO">                        <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
+                    </form> -->
+                        <a href="http://127.0.0.1:8000/logout" class="btn btn-danger btn-sm pull-right">Logout</a>
+                    </div>
                 </div>
-                <div class="pull-right" style="margin-top:-2%;">
-                <form action="/logout" method="post">
-                @csrf
-                    <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
-                </form>
-                </div>
+
             </div>
             <!-- header area end -->
             <div class="main-content-inner">
@@ -127,9 +134,9 @@
                 </div>
                 @endif
                 @if ($errors->has('keyword'))
-                    <div class="alert alert-danger mt-5">
-                        {{ $errors->first('keyword') }}
-                    </div>
+                <div class="alert alert-danger mt-5">
+                    {{ $errors->first('keyword') }}
+                </div>
                 @endif
                 <div class="row">
                     <div class="col-md-5 mt-5">
@@ -139,7 +146,8 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="">Search BY Title</label>
-                                        <input type="text" class="form-control" id="searchFilter" name="search" value="{{ Session::get('keyword');}}" placeholder="Search Keyword">
+                                        <input type="text" class="form-control" id="searchFilter" name="search"
+                                            value="{{ Session::get('keyword');}}" placeholder="Search Keyword">
                                     </div>
                                 </div>
                                 <div class="col-md-4 mt-5">
@@ -147,16 +155,17 @@
                                     <input type="button" onclick="resetForm()" value="Reset" class="btn btn-danger">
                                 </div>
                             </div>
-                           
+
                         </form>
-                    </div>  
+                    </div>
                     <div class="col-md-6 offset-1 mt-5">
                         <form action="/export" method="post" id="search" class="mt-5">
                             @csrf
                             <!-- <input type="hidden" name="_token" value="H8HO4rRMYm3zs1u4HvOwthZ98bVx13CLVBJSL1Hu">-->
-                            <div class="row">   
+                            <div class="row">
                                 <div class="col-md-5 offset-5">
-                                    <select class="form-control p-2" name="keyword" id="export" style="height: fit-content;">
+                                    <select class="form-control p-2" name="keyword" id="export"
+                                        style="height: fit-content;">
                                         <option value="" selected="">Select Keyword</option>
                                         @foreach($records as $record)
                                         <option value="{{ $record->id }}">{{ $record->name }}</option>
@@ -167,7 +176,7 @@
                                     <input type="submit" class="btn btn-primary" value="Export">
                                 </div>
                                 <div class="col-md-1"></div>
-                            </div>                           
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -185,8 +194,8 @@
                                                 <td class="coin-name" style="margin-left: -7%">Keyword</td>
                                                 <td class="coin-name" style="margin-right: 3%">Status</td>
                                                 <td class="coin-name" style="margin-left: -2%">Action</td>
-                                            </tr>   
-                                            @if(count($keywords) > 0) 
+                                            </tr>
+                                            @if(count($keywords) > 0)
                                             @foreach($keywords as $keyword)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
@@ -200,12 +209,15 @@
 
                                                 @php($class = 'label label-danger')
                                                 @php($scan = 'Unscanned')
-                                                
+
                                                 @endif
-                                                <td class="fixed-size-cell"><span for="" class="{{ $class }}">{{ $scan }}</span></td>
+                                                <td class="fixed-size-cell"><span for=""
+                                                        class="{{ $class }}">{{ $scan }}</span></td>
                                                 <td>
-                                                    <a href="#" onclick="deleteKeyword({{$keyword->id}})" class="btn btn-danger btn-sm"><i class="ti-trash"></i></a>
-                                                    <a href="/keyword/detail/{{$keyword->id}}" class="btn btn-info btn-sm"><i class="ti-eye"></i></a>
+                                                    <a href="#" onclick="deleteKeyword({{$keyword->id}})"
+                                                        class="btn btn-danger btn-sm"><i class="ti-trash"></i></a>
+                                                    <a href="/keyword/detail/{{$keyword->id}}"
+                                                        class="btn btn-info btn-sm"><i class="ti-eye"></i></a>
                                                 </td>
                                             </tr>
                                             @endforeach
@@ -232,8 +244,8 @@
         <footer>
             <div class="footer-area">
                 <p>© Copyright 2018. All right reserved.
-                     <!-- Template by <a href="#">Colorlib</a>.-->
-                    </p> 
+                    <!-- Template by <a href="#">Colorlib</a>.-->
+                </p>
             </div>
         </footer>
         <!-- footer area end-->
@@ -448,86 +460,83 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 
     <script>
+    function showSuccessMessage(message) {
+        swal.fire('Success', message, 'success');
+    }
 
-        function showSuccessMessage(message)
-        {
-            swal.fire('Success', message, 'success');
-        }
-        function searchWord()
-        {
-            var formData = $("#keywordForm").serialize();
-            $.ajax({
-                url: 'add/keyword',
-                type: 'POST',
-                data:formData,
-                dataType: 'json',
-                success:function(response){
-                    console.log(response);
-                    if(response.success){
-                        // swal.fire('success' , response.message);
-                        swal.fire({
-                            title:'success',
-                            text: response.message,
-                            type: 'success',
-                            confirmButtonText:'OK'
-                        }).then(function(){
-                            location.reload();
-                        });
-                    }
-                },
-                error:function(errors){
-                    console.log(errors);
-                    // swal.fire('Error' , errors);
-                }
-            });
-        }
-
-        function deleteKeyword(id)
-        {
-
-            swal.fire({
-                title: 'Are you sure',
-                text: 'You want to delete the keyword',
-                confirmButtonText: 'Yes',
-                showCancelButton: true,
-                cancelButtonText: 'No',
-            }).then(function(result){
-
-                if(result.value){
-                    $.ajax({
-                    url: '/delete/keyword/'+id,
-                    type : 'get',
-                    dataType: 'json',
-                    data:{id , id},
-                    success: function(response){
+    function searchWord() {
+        var formData = $("#keywordForm").serialize();
+        $.ajax({
+            url: 'add/keyword',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                if (response.success) {
+                    // swal.fire('success' , response.message);
                     swal.fire({
-                            title:'success',
+                        title: 'success',
+                        text: response.message,
+                        type: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        location.reload();
+                    });
+                }
+            },
+            error: function(errors) {
+                console.log(errors);
+                // swal.fire('Error' , errors);
+            }
+        });
+    }
+
+    function deleteKeyword(id) {
+
+        swal.fire({
+            title: 'Are you sure',
+            text: 'You want to delete the keyword',
+            confirmButtonText: 'Yes',
+            showCancelButton: true,
+            cancelButtonText: 'No',
+        }).then(function(result) {
+
+            if (result.value) {
+                $.ajax({
+                    url: '/delete/keyword/' + id,
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        id,
+                        id
+                    },
+                    success: function(response) {
+                        swal.fire({
+                            title: 'success',
                             text: response.message,
                             type: 'success',
-                            confirmButtonText:'OK'
-                        }).then(function(){
+                            confirmButtonText: 'OK'
+                        }).then(function() {
                             location.reload();
                         });
                     },
-                    error: function(response){
+                    error: function(response) {
                         console.log(response)
-                        swal.fire('Error' , 'Something went wrong' , 'error')
+                        swal.fire('Error', 'Something went wrong', 'error')
                     }
 
                 });
 
-                }
-            });
+            }
+        });
 
-        }
+    }
 
-        function resetForm()
-        {
-            $('#searchFilter').val('');
-            $('#submit').click();
-        }
-
-
+    function resetForm() {
+        $('#searchFilter').val('');
+        $('#submit').click();
+    }
     </script>
 </body>
 

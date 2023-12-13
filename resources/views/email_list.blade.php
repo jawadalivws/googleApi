@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="assets/css/slicknav.min.css">
     <!-- amchart css -->
-    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css"
+        media="all" />
     <!-- others css -->
     <link rel="stylesheet" href="{{ asset('assets/css/typography.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/default-css.css')}}">
@@ -28,20 +29,23 @@
     <!-- modernizr css -->
     <script src="{{ asset('assets/js/vendor/modernizr-2.8.3.min.js')}}"></script>
     <style>
-        .break-line {
-  word-wrap: break-word; 
-}
-        .ti-trash{
-            /* color:red; */
-        }
-        .submit{
-            width: 15% !important;
-            background-color: #007bff !important;
-            color:white;
-            border-color: black;
-        }
-        .fixed-size-cell {
-      width: 250px;
+    .break-line {
+        word-wrap: break-word;
+    }
+
+    .ti-trash {
+        /* color:red; */
+    }
+
+    .submit {
+        width: 15% !important;
+        background-color: #007bff !important;
+        color: white;
+        border-color: black;
+    }
+
+    .fixed-size-cell {
+        width: 250px;
     }
     </style>
 </head>
@@ -94,27 +98,30 @@
             <div class="header-area">
                 <div class="row align-items-center">
                     <!-- nav and search button -->
-                    <div class="col-md-12 col-sm-12 clearfix">
+                    <div class="col-md-11 col-sm-11 clearfix">
                         <div class="nav-btn pull-left">
                             <span></span>
                             <span></span>
                             <span></span>
                         </div>
-                        <div class="search-box pull-left" style="width:90%;">
+                        <div class="search-box pull-left" style="width: 90%;">
                             <form action="/add/keyword" method="post" id="keywordForm">
                                 @csrf
-                                <input type="text" id="keyword" name="keyword" placeholder="Enter a Keyword" required style="width:57%;">
-                                <input type="submit" class="btn submit" value="Add Keyword" style="width:9%!important;">
+                                <input type="text" id="keyword" name="keyword" placeholder="Enter a Keyword"
+                                    style="width: 57%;" required="">
+                                <button type="submit" class="btn btn-primary"
+                                    style="width:9%!important;border-radius: 19px;">Add Keyword</button>
                             </form>
                         </div>
                     </div>
+                    <div class="col-md-1 col-sm-1 pull-right">
+                        <!-- <form action="/logout" method="post">
+                        <input type="hidden" name="_token" value="FKxz20wHpVV1t3ERwkA1VnrwGpdoQrDGeJKYwyDO">                        <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
+                    </form> -->
+                        <a href="http://127.0.0.1:8000/logout" class="btn btn-danger btn-sm pull-right">Logout</a>
+                    </div>
                 </div>
-                <div class="pull-right" style="margin-top:-2%;">
-                <form action="/logout" method="post">
-                @csrf
-                    <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
-                </form>
-                </div>
+
             </div>
             <!-- header area end -->
             <div class="main-content-inner">
@@ -128,9 +135,9 @@
                 </div>
                 @endif
                 @if ($errors->has('keyword'))
-                    <div class="alert alert-danger mt-5">
-                        {{ $errors->first('keyword') }}
-                    </div>
+                <div class="alert alert-danger mt-5">
+                    {{ $errors->first('keyword') }}
+                </div>
                 @endif
                 <form action="/email/list" method="post">
                     @csrf
@@ -138,10 +145,12 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Search BY Keyword</label>
-                                <select name="search_keyword" id="search_keyword" class="form-control" style="height: fit-content;">
+                                <select name="search_keyword" id="search_keyword" class="form-control"
+                                    style="height: fit-content;">
                                     <option value="" selected>Select Keyword</option>
                                     @foreach($keywords as $keyword)
-                                    <option value="{{ $keyword->id }}" @if($keyword->id == Session::get('search_keyword')) selected @endif>{{ $keyword->name }}</option>
+                                    <option value="{{ $keyword->id }}" @if($keyword->id ==
+                                        Session::get('search_keyword')) selected @endif>{{ $keyword->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -149,13 +158,15 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Search BY Title</label>
-                                <input type="text" class="form-control" id="title" name="title" value="{{ Session::get('title');}}" placeholder="Search by Title">
+                                <input type="text" class="form-control" id="title" name="title"
+                                    value="{{ Session::get('title');}}" placeholder="Search by Title">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Search BY Email</label>
-                                <input type="text" class="form-control" id="email" name="email" value="{{ Session::get('email');}}" placeholder="Search Email">
+                                <input type="text" class="form-control" id="email" name="email"
+                                    value="{{ Session::get('email');}}" placeholder="Search Email">
                             </div>
                         </div>
                         <div class="col-md-3 mt-4">
@@ -163,7 +174,7 @@
                             <input type="button" value="Reset" onclick="resetForm()" class="btn btn-danger mt-3">
                         </div>
                     </div>
-                           
+
                 </form>
                 <div class="row mt-5 mb-5">
                     <div class="col-12">
@@ -178,8 +189,8 @@
                                                 <td class="coin-name" style="margin-right: 4%">Title</td>
                                                 <td class="coin-name" style="margin-left: -2%">Email</td>
                                                 <td class="coin-name">Contact</td>
-                                            </tr>    
-                                            @if(count($email_list) > 0)                                
+                                            </tr>
+                                            @if(count($email_list) > 0)
                                             @foreach($email_list as $data)
                                             <tr class="text-end">
                                                 <td>{{ $loop->iteration }}</td>
@@ -191,7 +202,8 @@
                                                 @if($data->url == '')
                                                 @php($contact = '--')
                                                 @endif
-                                                <td class="break-line" colspan="3"><a title="{{$data->url}}" href="{{$data->url}}">{{ $contact }}</a></td>
+                                                <td class="break-line" colspan="3"><a title="{{$data->url}}"
+                                                        href="{{$data->url}}">{{ $contact }}</a></td>
                                             </tr>
                                             @endforeach
                                             @else
@@ -217,8 +229,8 @@
         <footer>
             <div class="footer-area">
                 <p>© Copyright 2018. All right reserved.
-                     <!-- Template by <a href="#">Colorlib</a>.-->
-                    </p> 
+                    <!-- Template by <a href="#">Colorlib</a>.-->
+                </p>
             </div>
         </footer>
         <!-- footer area end-->
@@ -433,48 +445,44 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 
     <script>
+    function showSuccessMessage(message) {
+        swal.fire('Success', message, 'success');
+    }
 
-        function showSuccessMessage(message)
-        {
-            swal.fire('Success', message, 'success');
-        }
-        function searchWord()
-        {
-            var formData = $("#keywordForm").serialize();
-            $.ajax({
-                url: 'add/keyword',
-                type: 'POST',
-                data:formData,
-                dataType: 'json',
-                success:function(response){
-                    console.log(response);
-                    if(response.success){
-                        // swal.fire('success' , response.message);
-                        swal.fire({
-                            title:'success',
-                            text: response.message,
-                            type: 'success',
-                            confirmButtonText:'OK'
-                        }).then(function(){
-                            location.reload();
-                        });
-                    }
-                },
-                error:function(errors){
-                    console.log(errors);
-                    // swal.fire('Error' , errors);
+    function searchWord() {
+        var formData = $("#keywordForm").serialize();
+        $.ajax({
+            url: 'add/keyword',
+            type: 'POST',
+            data: formData,
+            dataType: 'json',
+            success: function(response) {
+                console.log(response);
+                if (response.success) {
+                    // swal.fire('success' , response.message);
+                    swal.fire({
+                        title: 'success',
+                        text: response.message,
+                        type: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(function() {
+                        location.reload();
+                    });
                 }
-            });
-        }
+            },
+            error: function(errors) {
+                console.log(errors);
+                // swal.fire('Error' , errors);
+            }
+        });
+    }
 
-        function resetForm()
-        {
-            $('#title').val('');
-            $('#email').val('');
-            $('#search_keyword').val('');
-            $('#submit').click();
-        }
-
+    function resetForm() {
+        $('#title').val('');
+        $('#email').val('');
+        $('#search_keyword').val('');
+        $('#submit').click();
+    }
     </script>
 </body>
 

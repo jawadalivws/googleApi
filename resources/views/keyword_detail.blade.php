@@ -99,28 +99,30 @@
             <div class="header-area">
                 <div class="row align-items-center">
                     <!-- nav and search button -->
-                    <div class="col-md-12 col-sm-12 clearfix">
+                    <div class="col-md-11 col-sm-11 clearfix">
                         <div class="nav-btn pull-left">
                             <span></span>
                             <span></span>
                             <span></span>
                         </div>
-                        <div class="search-box pull-left" style="width:90%;">
+                        <div class="search-box pull-left" style="width: 90%;">
                             <form action="/add/keyword" method="post" id="keywordForm">
                                 @csrf
-                                <input type="text" id="keyword" name="keyword" style="width:57%;"
-                                    placeholder="Enter a Keyword" required>
-                                <input type="submit" class="btn submit" value="Add Keyword" style="width:9%!important;">
+                                <input type="text" id="keyword" name="keyword" placeholder="Enter a Keyword"
+                                    style="width: 57%;" required="">
+                                <button type="submit" class="btn btn-primary"
+                                    style="width:9%!important;border-radius: 19px;">Add Keyword</button>
                             </form>
                         </div>
                     </div>
+                    <div class="col-md-1 col-sm-1 pull-right">
+                        <!-- <form action="/logout" method="post">
+                        <input type="hidden" name="_token" value="FKxz20wHpVV1t3ERwkA1VnrwGpdoQrDGeJKYwyDO">                        <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
+                    </form> -->
+                        <a href="http://127.0.0.1:8000/logout" class="btn btn-danger btn-sm pull-right">Logout</a>
+                    </div>
                 </div>
-                <div class="pull-right" style="margin-top:-2%;">
-                    <form action="/logout" method="post">
-                        @csrf
-                        <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
-                    </form>
-                </div>
+
             </div>
             <!-- header area end -->
             <div class="main-content-inner">
