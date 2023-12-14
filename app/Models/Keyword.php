@@ -10,6 +10,8 @@ class Keyword extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+    
     protected $guarded = [];
     
     public function keyword_records()

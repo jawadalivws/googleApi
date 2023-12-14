@@ -10,6 +10,7 @@ use Goutte;
 use Rap2hpoutre\FastExcel\FastExcel;
 use GuzzleHttp\Client;
 use Session;
+use Carbon\Carbon;
 
 class KeywordController extends Controller
 {
@@ -49,6 +50,8 @@ class KeywordController extends Controller
         
         $insert = Keyword::insert([
             'name' => $request->keyword,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
         ]);
 
         return back()->with('success' , 'Word Added Successfully.');

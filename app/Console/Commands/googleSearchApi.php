@@ -129,7 +129,7 @@ class googleSearchApi extends Command
                                             if (Str::contains($emails[0], ['.png', '.jpeg', '.jpg','.gif', '.pdf' , '.tiff','.psd' , '.eps', '.ai', '.indd','.raw' ,'.txt','.ppt'])) {
                                             }else{
                                                 $exists = KeywordRecord::where('email' , $emails[0])->first();
-                                                dump($emails[0]);
+                                                // dump($emails[0]);
                                                 if(isset($exists->id)){
     
                                                 }else{
@@ -169,6 +169,8 @@ class googleSearchApi extends Command
                                                 'email' => $email,
                                                 'title' => $item->title,
                                                 'url' => $contact,
+                                                'created_at' => Carbon::now(),
+                                                'updated_at' => Carbon::now(),
                                             ];
                     
                                             if (!empty($dataToInsert)) {

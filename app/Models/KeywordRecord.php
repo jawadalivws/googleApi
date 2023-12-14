@@ -9,6 +9,8 @@ class KeywordRecord extends Model
 {
     use HasFactory;
 
+    public $timestamps = true;
+    
     protected $guarded = [];
 
     public function keywords()
