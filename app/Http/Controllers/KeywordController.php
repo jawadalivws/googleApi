@@ -101,7 +101,7 @@ class KeywordController extends Controller
 
     public function emailList(Request $request)
     {
-// dd($request);
+        // dd($request);
         if(((isset($request->email) && !empty($request->email)) || (isset($request->title) && !empty($request->title)) || (isset($request->search_keyword) && !empty($request->search_keyword))) ||
         (Session::get('title') != null || Session::get('search_keyword') != null || Session::get('email') != null)){ 
 
@@ -184,11 +184,11 @@ class KeywordController extends Controller
     {
         if($request->keyword == ''){
            
-            $data = KeywordRecord::select('title' , 'email')->get();
+            $data = KeywordRecord::select('title' , 'email')->where('email_sent' , false)->get();
         
         }else{
 
-            $data = KeywordRecord::where('keyword_id' , $request->keyword)->select('title' , 'email')->get();
+            $data = KeywordRecord::where('keyword_id' , $request->keyword)->where('email_sent' , false)->select('title' , 'email')->get();
 
         }
         
@@ -214,5 +214,28 @@ class KeywordController extends Controller
 
         $keyword = $query->paginate(20);
 
+    }
+
+    public function importSentEmailCsv(Request $request)
+    {
+
+        if (!$request->hasFile('file')) {
+            throw new \Exception('File not found in the request.');
+        }
+
+        // Retrieve the file from the request
+        $file = $request->file('file');
+
+
+        dump($file->getPathname());
+        (new FastExcel)->import($file, function($line){
+
+            // dump($line['email']);
+            $update = KeywordRecord::where('email', $line['email'])->update(['email_sent' => true]);
+
+        });
+
+        return back()->with('success' , 'File Imported Successfully');
+        
     }
 }
