@@ -61,41 +61,13 @@
     <!-- page container area start -->
     <div class="page-container">
         <!-- sidebar menu area start -->
-        <div class="sidebar-menu">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <a href="/"><img src="{{ asset('assets/images/icon/logo.png')}}" alt="logo"></a>
-                </div>
-            </div>
-            <div class="main-menu">
-                <div class="menu-inner">
-                    <nav>
-                        <ul class="metismenu" id="menu">
-                            <li class="{{ request()->is('/') ? 'active' : '' }}">
-                                <a href="/"><i class="ti-dashboard"></i><span>dashboard</span></a>
-                            </li>
-                            <li class="{{ request()->is('/email/list*') ? 'active' : '' }}">
-                                <a href="/email/list"><i class="ti-email"></i><span>Email List</span></a>
-                            </li>
-                            <!-- <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Charts</span></a>
-                                <ul class="collapse">
-                                    <li><a href="barchart.html">bar chart</a></li>
-                                    <li><a href="linechart.html">line Chart</a></li>
-                                    <li><a href="piechart.html">pie chart</a></li>
-                                </ul>
-                            </li> -->
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
+        @include('layouts/sidebar')
         <!-- sidebar menu area end -->
         <!-- main content area start -->
         <div class="main-content">
             <!-- header area start -->
             @include('layouts/header')
-            
+
             <!-- header area end -->
             <div class="main-content-inner">
                 <!-- market value area start -->
@@ -113,29 +85,48 @@
                 </div>
                 @endif
                 <div class="row">
-                    <div class="col-md-5 mt-5">
+                    <div class="col-md-12 mt-5">
                         <form action="/" method="post">
                             @csrf
                             <div class="row">
-                                <div class="col-md-8">
+                                <div class="col-md-12">
+                                    <h3 class="" style="">Search Filters</h3>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="">Search BY Title</label>
-                                        <input type="text" class="form-control" id="searchFilter" name="search"
-                                            value="{{ Session::get('keyword');}}" placeholder="Search Keyword">
+                                        <input type="text" class="form-control" id="searchFilter" name="searchKeyword"
+                                            value="{{ Session::get('searchKeyword');}}" placeholder="Search Keyword">
                                     </div>
                                 </div>
-                                <div class="col-md-4 mt-5">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Created From</label>
+                                        <input type="date" class="form-control" id="createdFrom" name="createdFrom"
+                                            value="{{ Session::get('createdFrom');}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Created To</label>
+                                        <input type="date" class="form-control" id="createdTo" name="createdTo"
+                                            value="{{ Session::get('createdTo');}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mt-5">
                                     <input type="submit" id="submit" value="Search" class="btn btn-primary">
-                                    <input type="button" onclick="resetForm()" value="Reset" class="btn btn-danger">
+                                    <!-- <input type="button" onclick="resetForm()" value="Reset" class="btn btn-danger"> -->
+                                    <a href="/" class="btn btn-danger">Reset</a>
                                 </div>
                             </div>
 
                         </form>
                     </div>
-                    <div class="col-md-6 offset-1 mt-5">
+                    <!-- <div class="col-md-6 offset-1 mt-5">
                         <form action="/export" method="post" id="search" class="mt-5">
                             @csrf
-                            <!-- <input type="hidden" name="_token" value="H8HO4rRMYm3zs1u4HvOwthZ98bVx13CLVBJSL1Hu">-->
                             <div class="row">
                                 <div class="col-md-5 offset-5">
                                     <select class="form-control p-2" name="keyword" id="export"
@@ -152,11 +143,18 @@
                                 <div class="col-md-1"></div>
                             </div>
                         </form>
-                    </div>
+                    </div> -->
                 </div>
 
 
-                <div class="row mt-5 mb-5">
+                <div class="row mt-5 mb-4">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                            data-target="#addKeywordModal">Add
+                            Keyword</button>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -166,8 +164,9 @@
                                             <tr class="heading-td">
                                                 <td class="mv-icon">Sr#</td>
                                                 <td class="coin-name" style="margin-left: -7%">Keyword</td>
-                                                <td class="coin-name" style="margin-right: 3%">Status</td>
-                                                <td class="coin-name" style="margin-left: -2%">Action</td>
+                                                <td class="coin-name" style="margin-right: 0%">Status</td>
+                                                <td class="coin-name" style="margin-right: -7%">Created Date</td>
+                                                <td class="coin-name" style="margin-left: 0%">Action</td>
                                             </tr>
                                             @if(count($keywords) > 0)
                                             @foreach($keywords as $keyword)
@@ -187,6 +186,8 @@
                                                 @endif
                                                 <td class="fixed-size-cell"><span for=""
                                                         class="{{ $class }}">{{ $scan }}</span></td>
+                                                <td><span class="label label-success">{{ $keyword->created_at }}</span>
+                                                </td>
                                                 <td>
                                                     <a href="#" onclick="deleteKeyword({{$keyword->id}})"
                                                         class="btn btn-danger btn-sm"><i class="ti-trash"></i></a>
@@ -214,6 +215,34 @@
             </div>
         </div>
         <!-- main content area end -->
+        <!-- Modal -->
+        <div class="modal fade" id="addKeywordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Keyword</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="/add/keyword" method="post" id="keywordForm">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <input type="text" id="keyword" name="keyword" class="form-control"
+                                    placeholder="Enter a Keyword" style="" required="">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- end modal -->
         <!-- footer area start-->
         <footer>
             <div class="footer-area">

@@ -1,13 +1,19 @@
+<style>
+    .btn-primary{
+        background-color:#0088ff!important;
+    }
+</style>
+
 <div class="header-area">
     <div class="row align-items-center">
         <!-- nav and search button -->
         <div class="col-md-10 col-sm-10 clearfix">
-            <div class="nav-btn pull-left">
+            <!-- <div class="nav-btn pull-left">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
-            <div class="search-box pull-left" style="width: 90%;">
+            </div> -->
+            <!-- <div class="search-box pull-left" style="width: 90%;">
                 <form action="/add/keyword" method="post" id="keywordForm">
                     @csrf
                     <input type="text" id="keyword" name="keyword" placeholder="Enter a Keyword" style="width: 57%;"
@@ -15,14 +21,14 @@
                     <button type="submit" class="btn btn-primary" style="width:9%!important;border-radius: 19px;">Add
                         Keyword</button>
                 </form>
-            </div>
+            </div> -->
         </div>
         <div class="col-md-2 col-sm-2 pull-right">
             <!-- <form action="/logout" method="post">
                         <input type="hidden" name="_token" value="FKxz20wHpVV1t3ERwkA1VnrwGpdoQrDGeJKYwyDO">                        <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
                     </form> -->
                     <a href="http://127.0.0.1:8000/logout" class="btn btn-danger btn-sm pull-right ml-2">Logout</a>
-                    <button type="button" class="btn btn-primary pull-right btn-sm" data-toggle="modal" data-target="#importCsv">Import CSV</button>
+                    <button type="button" class="btn btn-primary pull-right btn-sm" data-toggle="modal" data-target="#importCsv">Import Sent Email CSV</button>
         </div>
     </div>
 

@@ -62,35 +62,7 @@
     <!-- page container area start -->
     <div class="page-container">
         <!-- sidebar menu area start -->
-        <div class="sidebar-menu">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <a href="/"><img src="{{ asset('assets/images/icon/logo.png')}}" alt="logo"></a>
-                </div>
-            </div>
-            <div class="main-menu">
-                <div class="menu-inner">
-                    <nav>
-                        <ul class="metismenu" id="menu">
-                            <li class="{{ request()->is('/') ? 'active' : '' }}">
-                                <a href="/"><i class="ti-dashboard"></i><span>dashboard</span></a>
-                            </li>
-                            <li class="{{ request()->is('/email/list') ? 'active' : '' }}">
-                                <a href="/email/list"><i class="ti-email"></i><span>Email List</span></a>
-                            </li>
-                            <!-- <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Charts</span></a>
-                                <ul class="collapse">
-                                    <li><a href="barchart.html">bar chart</a></li>
-                                    <li><a href="linechart.html">line Chart</a></li>
-                                    <li><a href="piechart.html">pie chart</a></li>
-                                </ul>
-                            </li> -->
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
+        @include('layouts/sidebar')
         <!-- sidebar menu area end -->
         <!-- main content area start -->
         <div class="main-content">
@@ -114,6 +86,11 @@
                 @endif
                 <form action="/email/list" method="post">
                     @csrf
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 class="" style="">Search Filters</h3>
+                        </div>
+                    </div>
                     <div class="row mt-5">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -130,6 +107,20 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
+                                <label for="">Created Date From</label>
+                                <input type="date" class="form-control" id="createdFrom" name="createdFrom"
+                                    value="{{ Session::get('createdFrom');}}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="">Created Date To</label>
+                                <input type="date" class="form-control" id="createdTo" name="createdTo"
+                                    value="{{ Session::get('createdTo');}}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
                                 <label for="">Search BY Title</label>
                                 <input type="text" class="form-control" id="title" name="title"
                                     value="{{ Session::get('title');}}" placeholder="Search by Title">
@@ -142,14 +133,22 @@
                                     value="{{ Session::get('email');}}" placeholder="Search Email">
                             </div>
                         </div>
-                        <div class="col-md-3 mt-4">
+                        <div class="col-md-12 mt-4">
                             <input type="submit" id="submit" value="Search" class="btn btn-primary mt-3">
-                            <input type="button" value="Reset" onclick="resetForm()" class="btn btn-danger mt-3">
+                            <!-- <input type="button" value="Reset" onclick="resetForm()" class="btn btn-danger mt-3"> -->
+                            <a href="/email/list" class="btn btn-danger mt-3 text-white">Reset</a>
+                            <a href="{{ route('export')}}" class="btn btn-success pull-right mt-3">Export All Emails</a>
                         </div>
                     </div>
 
                 </form>
+                <!-- <div class="row">
+                    <div class="col-md-12">
+                    <h3 class="p-3" style="">All Emails</h3>
+                    </div>
+                </div> -->
                 <div class="row mt-5 mb-5">
+                <!-- <h3 class="" style="">All Emails</h3> -->
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -161,7 +160,8 @@
                                                 <td class="coin-name" style="margin-left: -8%">Keyword</td>
                                                 <td class="coin-name" style="margin-right: 4%">Title</td>
                                                 <td class="coin-name" style="margin-left: -2%">Email</td>
-                                                <td class="coin-name">Contact</td>
+                                                <td class="coin-name">Created date</td>
+                                                <!-- <td class="coin-name">Contact</td> -->
                                             </tr>
                                             @if(count($email_list) > 0)
                                             @foreach($email_list as $data)
@@ -175,8 +175,9 @@
                                                 @if($data->url == '')
                                                 @php($contact = '--')
                                                 @endif
-                                                <td class="break-line" colspan="3"><a title="{{$data->url}}"
-                                                        href="{{$data->url}}">{{ $contact }}</a></td>
+                                                <!-- <td class="break-line" colspan="3"><a title="{{$data->url}}"
+                                                        href="{{$data->url}}">{{ $contact }}</a></td> -->
+                                                <td><span class="label label-success">{{ $data->created_at }}</span></td>
                                             </tr>
                                             @endforeach
                                             @else

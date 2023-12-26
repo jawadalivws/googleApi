@@ -63,35 +63,7 @@
     <!-- page container area start -->
     <div class="page-container">
         <!-- sidebar menu area start -->
-        <div class="sidebar-menu">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <a href="/"><img src="{{ asset('assets/images/icon/logo.png')}}" alt="logo"></a>
-                </div>
-            </div>
-            <div class="main-menu">
-                <div class="menu-inner">
-                    <nav>
-                        <ul class="metismenu" id="menu">
-                            <li class="{{ request()->is('/') ? 'active' : '' }}">
-                                <a href="/"><i class="ti-dashboard"></i><span>dashboard</span></a>
-                            </li>
-                            <li class="{{ request()->is('/email/list*') ? 'active' : '' }}">
-                                <a href="/email/list"><i class="ti-email"></i><span>Email List</span></a>
-                            </li>
-                            <!-- <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Charts</span></a>
-                                <ul class="collapse">
-                                    <li><a href="barchart.html">bar chart</a></li>
-                                    <li><a href="linechart.html">line Chart</a></li>
-                                    <li><a href="piechart.html">pie chart</a></li>
-                                </ul>
-                            </li> -->
-                        </ul>
-                    </nav>
-                </div>
-            </div>
-        </div>
+        @include('layouts/sidebar')
         <!-- sidebar menu area end -->
         <!-- main content area start -->
         <div class="main-content">
@@ -135,7 +107,12 @@
                     </div>
                            
                 </form> -->
-                <div class="row mt-5 mb-5">
+                <div class="row mt-5 mb-4">
+                    <div class="col-md-2 offset-10 text-end">
+                        <a href="{{ route('export' , ['keyword' => $keyword->id]) }}" class="btn btn-success pull-right">Export Emails</a>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
@@ -144,10 +121,11 @@
                                         <table class="dbkit-table" id="myTable">
                                             <thead class="heading-td">
                                                 <th class="mv-icon orderable">Sr#</th>
-                                                <th class="coin-name" style="margin-left: -8%">Keyword</th>
-                                                <th class="coin-name" style="margin-right: 4%">Title</th>
-                                                <th class="coin-name" style="margin-left: -2%">Email</th>
-                                                <th class="coin-name">Contact</th>
+                                                <th class="coin-name">Keyword</th>
+                                                <th class="coin-name">Title</th>
+                                                <th class="coin-name">Email</th>
+                                                <th class="coin-name">Email Sent</th>
+                                                <!-- <th class="coin-name">Contact</th> -->
                                             </thead>
                                             @if(count($keyword->keyword_records) > 0)
                                             @foreach($keyword->keyword_records as $data)
@@ -160,8 +138,14 @@
                                                 @if($data->url == '')
                                                 @php($contact = '--')
                                                 @endif
-                                                <td class="break-line" colspan="3"><a title="{{$data->url}}"
-                                                        href="{{$data->url}}">{{ $contact }}</a></td>
+                                                <!-- <td class="break-line" colspan="3"><a title="{{$data->url}}"
+                                                        href="{{$data->url}}">{{ $contact }}</a></td> -->
+                                                @if($data->email_sent == true)
+                                                @php($email_sent = 'yes')
+                                                @else
+                                                @php($email_sent = 'no')
+                                                @endif
+                                                <td style="text-align:end;">{{ $email_sent }}</td>
                                             </tr>
                                             @endforeach
                                             @else

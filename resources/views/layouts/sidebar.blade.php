@@ -14,6 +14,9 @@
                             <li class="{{ request()->is('/email/list*') ? 'active' : '' }}">
                                 <a href="/email/list"><i class="ti-email"></i><span>Email List</span></a>
                             </li>
+                            <!-- <li class="{{ request()->is('/sent/email*') ? 'active' : '' }}">
+                                <a href="/sent/email"><i class="ti-email"></i><span>Sent Email</span></a>
+                            </li> -->
                             <!-- <li>
                                 <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Charts</span></a>
                                 <ul class="collapse">

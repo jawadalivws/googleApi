@@ -17,18 +17,39 @@ class KeywordController extends Controller
 
     public function index(Request $request)
     {
-        if(isset($request->search) && !empty($request->search)){
+        // dd($request);
+        if(isset($request->searchKeyword) || isset($request->createdFrom) || isset($request->createdTo)){
 
-            $keyword = $request->search;
-            Session::put('keyword', $keyword);
-            $keywords = Keyword::where('name' , 'like' , '%'.$keyword.'%')->paginate(10);
+            $query = Keyword::query();
+            if(!empty($request->searchKeyword)){
+
+                Session::put('searchKeyword',$request->searchKeyword);
+                $query->where('name' , 'like' , '%'.$request->searchKeyword.'%');
+            }else{
+                session()->forget('searchKeyword');
+            }
+            if(!empty($request->createdFrom)){
+                Session::put('createdFrom',$request->createdFrom);
+                $query->where('created_at' , '>=' , $request->createdFrom);
+            }else{
+                session()->forget('createdFrom');
+            }
+            if(!empty($request->createdTo)){
+                Session::put('createdTo',$request->createdTo);
+                $query->where('created_at' , '<=' , $request->createdTo);
+            }else{
+                session()->forget('createdTo');
+            }
+
+            $keywords = $query->latest()->paginate(10);
 
         }else{
 
-            if(session('keyword')){
-                session()->forget('keyword');
-            }
-            $keywords = Keyword::paginate(10);
+            session()->forget('searchKeyword');
+            session()->forget('createdFrom');
+            session()->forget('createdTo');
+
+            $keywords = Keyword::latest()->paginate(10);
         }
 
         $records = [];
@@ -101,61 +122,62 @@ class KeywordController extends Controller
 
     public function emailList(Request $request)
     {
-        // dd($request);
-        if(((isset($request->email) && !empty($request->email)) || (isset($request->title) && !empty($request->title)) || (isset($request->search_keyword) && !empty($request->search_keyword))) ||
-        (Session::get('title') != null || Session::get('search_keyword') != null || Session::get('email') != null)){ 
-
-            if($request->input('title') != null){
-
-                $title   = $request->input('title');
-            }elseif(!$request->has('title') && Session::get('title') != null){
-                    $title   = Session::get('title');
-                }
-            if($request->input('email') != null){
-
-                $email   = $request->input('email');
-            }
-            elseif(!$request->has('email') && Session::get('email') != null){
-                $email   = Session::get('email');
-            }
-            
-            if($request->input('search_keyword') != null){
-                $search_keyword   = $request->input('search_keyword');
-            }
-            elseif(!$request->has('search_keyword') && Session::get('search_keyword') != null){
-                $search_keyword   = Session::get('search_keyword');
-            }
-
-            session()->forget('search_keyword');
-            session()->forget('title');
-            session()->forget('email');
+        if((isset($request->email) || isset($request->title) || isset($request->search_keyword)  || isset($request->createdFrom) || isset($request->createdTo))){ 
 
             $query = KeywordRecord::query();
-            if(!empty($title)){
-                Session::put('title', $title);
-                $query->where('title', 'like', '%' . $title . '%');
+
+            if(!empty($request->title)){
+
+                Session::put('title', $request->title);
+                $query->where('title', 'like', '%' . $request->title . '%');
+
+            }else{
+                session()->forget('title');
             }
-            if(!empty($search_keyword)){
-                Session::put('search_keyword', $search_keyword);
-                $query->where('keyword_id', $search_keyword);
+
+            if(!empty($request->search_keyword)){
+
+                Session::put('search_keyword', $request->search_keyword);
+                $query->where('keyword_id', $request->search_keyword);
+
+            }else{
+                session()->forget('search_keyword');
             }
-            if(!empty($email)){
-                Session::put('email', $email);
-                $query->where('email', 'like', '%' . $email . '%');
+
+            if(!empty($request->email)){
+
+                Session::put('email', $request->email);
+                $query->where('email', 'like', '%' . $request->email . '%');
+
+            }else{
+                session()->forget('email');
             }
+            
+            if(!empty($request->createdFrom)){
+
+                Session::put('createdFrom',$request->createdFrom);
+                $query->where('created_at' , '>=' , $request->createdFrom);
+            }else{
+                session()->forget('createdFrom');
+            }
+            if(!empty($request->createdTo)){
+
+                Session::put('createdTo',$request->createdTo);
+                $query->where('created_at' , '<=' , $request->createdTo);
+            }else{
+                session()->forget('createdTo');
+            }
+
             $email_list = $query->paginate(50);
 
         }else{
 
-            if(session('title')){
-                session()->forget('title');
-            }
-            if(session('email')){
-                session()->forget('email');
-            }
-            if(session('search_keyword')){
-                session()->forget('search_keyword');
-            }
+            session()->forget('title');
+            session()->forget('email');
+            session()->forget('search_keyword');
+            session()->forget('createdFrom');
+            session()->forget('createdTo');
+            
             $email_list = KeywordRecord::paginate(50);
         }
 
@@ -182,7 +204,7 @@ class KeywordController extends Controller
 
     public function export(Request $request)
     {
-        if($request->keyword == ''){
+        if($request->keyword == '' || $request->has('keyword')){
            
             $data = KeywordRecord::select('title' , 'email')->where('email_sent' , false)->get();
         
