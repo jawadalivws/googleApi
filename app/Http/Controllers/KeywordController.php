@@ -220,6 +220,7 @@ class KeywordController extends Controller
 
     public function searchKeyword(Request $request)
     {
+
         $title = $request->input('title');
         $email = $request->input('email');
 
@@ -259,5 +260,22 @@ class KeywordController extends Controller
 
         return back()->with('success' , 'File Imported Successfully');
         
+    }
+
+    public function putDate(Request $request)
+    {
+        
+        $stringDate = $request->date;
+        $id = $request->id;
+        $date = Carbon::parse($stringDate);
+        // dump($id);
+        // dd($date);
+        $update = KeywordRecord::where('keyword_id' , $id)->update([
+            'created_at' => $date,
+        ]);
+        if($update){
+            dd('done');
+        }
+        dd('error');
     }
 }

@@ -27,7 +27,8 @@ Route::get('/keyword/detail/{id}', [KeywordController::class , 'keywordDetail'])
 Route::match(['get' ,'post']  , '/email/list', [KeywordController::class , 'emailList'])->name('email_list')->middleware('auth');
 Route::get('/delete/keyword/{id}', [KeywordController::class , 'deleteKeyword'])->name('delete_keyword')->middleware('auth');
 Route::match(['get' ,'post']  ,'/export', [KeywordController::class , 'export'])->name('export')->middleware('auth');
-Route::post('/search/keyword', [KeywordController::class , 'searchKeyword'])->name('search_keyword')->middleware('auth');
+Route::match(['get' ,'post'] , '/search/keyword', [KeywordController::class , 'searchKeyword'])->name('search_keyword')->middleware('auth');
+Route::match(['get' ,'post'] , '/putdate', [KeywordController::class , 'putDate'])->name('putdate')->middleware('auth');
 Route::post('/import/csv', [KeywordController::class , 'ImportSentEmailCsv'])->name('import_csv')->middleware('auth');
 
 Route::get('/clear', function() {
