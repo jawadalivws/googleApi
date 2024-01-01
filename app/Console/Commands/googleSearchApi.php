@@ -13,6 +13,7 @@ require 'vendor/autoload.php'; // Load the Composer autoloader
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class googleSearchApi extends Command
 {
