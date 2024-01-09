@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="{{ asset('assets/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="assets/css/slicknav.min.css">
     <!-- amchart css -->
-    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css"
+        media="all" />
     <!-- others css -->
     <link rel="stylesheet" href="{{ asset('assets/css/typography.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/css/default-css.css')}}">
@@ -69,6 +70,8 @@
             </div>
         </div>
         <!-- main content area end -->
+
+        @yield('modal')
         <!-- footer area start-->
         @include('layouts.footer')
         <!-- footer area end-->
@@ -252,8 +255,8 @@
         </div>
     </div>
     <!-- offset area end -->
-    <!-- jquery latest version -->
-    <script src="{{ asset('assets/js/vendor/jquery-2.2.4.min.js') }}"></script>
+   <!-- jquery latest version -->
+   <script src="{{ asset('assets/js/vendor/jquery-2.2.4.min.js') }}"></script>
     <!-- bootstrap 4 js -->
     <script src="{{ asset('assets/js/popper.min.js')}}"></script>
     <script src="{{ asset('assets/js/bootstrap.min.js')}}"></script>
@@ -282,6 +285,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
 
+    @yield('script')
     <script>
 
         function showSuccessMessage(message)
