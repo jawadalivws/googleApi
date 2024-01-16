@@ -214,7 +214,49 @@ class KeywordController extends Controller
 
         }
         
-        return (new FastExcel($data))->download('file.xlsx');
+        $extraFields = collect([
+            'first_name' => '',
+            'last_name' => '',
+            'company' => '',
+            'Position' => '',
+            'Connection On' => '',
+            'City' => '',
+            'State' => '',
+            'Phone' => '',
+            'Custom Field 1' => '',
+            'Custom Field 2' => '',
+            'Custom Field 3' => '',
+            // Add as many extra fields as needed
+        ]);
+
+        // $dataWithExtraFields = $data->map(function ($item) use ($extraFields) {
+        //     return $item->merge($extraFields);
+        // });
+
+        $dataWithExtraFields = $data->map(function ($item) use ($extraFields) {
+            return array_merge($item->toArray(), $extraFields->toArray());
+        });
+
+        $finalData = $dataWithExtraFields->map(function ($item) {
+            return [
+                'First Name' => $item['first_name'],
+                'Last Name' => $item['last_name'],
+                'Email' => $item['email'],
+                'Title' => $item['title'],
+                'Company' => $item['company'],
+                'Position' => $item['Position'],
+                'Connection On' => $item['Connection On'],
+                'City' => $item['City'],
+                'State' => $item['State'],
+                'Phone' => $item['Phone'],
+                'Custom Field 1' => $item['Custom Field 1'],
+                'Custom Field 2' => $item['Custom Field 2'],
+                'Custom Field 3' => $item['Custom Field 3'],
+            ];
+        });
+        
+
+        return (new FastExcel($finalData))->download('email.xlsx');
 
     }
 
