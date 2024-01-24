@@ -206,11 +206,11 @@ class KeywordController extends Controller
     {
         if($request->keyword == '' || $request->has('keyword')){
            
-            $data = KeywordRecord::select('title' , 'email')->where('email_sent' , false)->get();
+            $data = KeywordRecord::select('email')->where('email_sent' , false)->get();
         
         }else{
 
-            $data = KeywordRecord::where('keyword_id' , $request->keyword)->where('email_sent' , false)->select('title' , 'email')->get();
+            $data = KeywordRecord::where('keyword_id' , $request->keyword)->where('email_sent' , false)->select('email')->get();
 
         }
         
@@ -242,7 +242,6 @@ class KeywordController extends Controller
                 'First Name' => $item['first_name'],
                 'Last Name' => $item['last_name'],
                 'Email' => $item['email'],
-                'Title' => $item['title'],
                 'Company' => $item['company'],
                 'Position' => $item['Position'],
                 'Connection On' => $item['Connection On'],
