@@ -302,8 +302,8 @@ class KeywordController extends Controller
         // dump($file->getPathname());
         (new FastExcel)->import($file, function($line){
 
-            // dump($line['email']);
-            $update = KeywordRecord::where('email', $line['email'])->update(['email_sent' => true]);
+            // dd($line['Email']);
+            $update = KeywordRecord::where('email', $line['Email'])->update(['email_sent' => true]);
 
         });
 
