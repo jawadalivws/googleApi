@@ -18,6 +18,18 @@
     .fixed-size-cell {
         width: 250px;
     }
+    .filter-section{
+        background: white!important;
+        margin-top: 2%!important;
+        padding-bottom: 2%!important;
+        border-radius: 10px;
+    }
+    .table-section{
+        border-radius: 10px;
+    }
+    .form-control{
+        background-color:whitesmoke!important;
+    }
     </style>
 
     @section('content')
@@ -36,13 +48,20 @@
             {{ $errors->first('keyword') }}
         </div>
         @endif
-        <div class="row">
+        <div class="row mt-5 mb-5">
+            <div class="col-md-12 p-0">
+                <button class="btn btn-info float-right" id="toggle_filter" onclick="toggleFilter()">Show Filters</button>
+                <button type="button" class="btn btn-primary float-right mr-3" data-toggle="modal" data-target="#addKeywordModal">Add
+                    Keyword</button>
+            </div>
+        </div>
+        <div class="row filter-section mb-5" style="display: none;">
             <div class="col-md-12 mt-5">
                 <form action="/" method="post">
                     @csrf
                     <div class="row">
                         <div class="col-md-12">
-                            <h3 class="" style="">Search Filters</h3>
+                            <h3 class="header-title" style="">Search Filters</h3>
                         </div>
                     </div>
                     <div class="row">
@@ -67,7 +86,7 @@
                                     value="{{ Session::get('createdTo');}}">
                             </div>
                         </div>
-                        <div class="col-md-3 mt-5">
+                        <div class="col-md-3 mt-4" style="margin-top: 1.6%!important;">
                             <input type="submit" id="submit" value="Search" class="btn btn-primary">
                             <!-- <input type="button" onclick="resetForm()" value="Reset" class="btn btn-danger"> -->
                             <a href="/" class="btn btn-danger">Reset</a>
@@ -84,9 +103,6 @@
                             <select class="form-control p-2" name="keyword" id="export"
                                 style="height: fit-content;">
                                 <option value="" selected="">Select Keyword</option>
-                                @foreach($records as $record)
-                                <option value="{{ $record->id }}">{{ $record->name }}</option>
-                                @endforeach
                             </select>
                         </div>
                         <div class="col-md-1">
@@ -98,16 +114,81 @@
             </div> -->
         </div>
 
-
-        <div class="row mt-5 mb-4">
-            <div class="col-md-2">
-                <button type="button" class="btn btn-primary" data-toggle="modal"
-                    data-target="#addKeywordModal">Add
-                    Keyword</button>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
+        <!-- chart section -->
+        <div class="row mb-5">
+                    <!-- seo fact area start -->
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-md-4 mt-5 mb-3">
+                                <div class="card">
+                                    <div class="seo-fact sbg1"><div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                                        <div class="p-4 d-flex justify-content-between align-items-center">
+                                            <div class="seofct-icon"><i class="ti-email"></i> Total Email</div>
+                                            <h2>{{ $total_email }}</h2>
+                                        </div>
+                                        <canvas id="seolinechart1" height="83" style="display: block; width: 501px; height: 83px;" width="501" class="chartjs-render-monitor"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-md-5 mb-3">
+                                <div class="card">
+                                    <div class="seo-fact sbg2"><div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                                        <div class="p-4 d-flex justify-content-between align-items-center">
+                                            <div class="seofct-icon"><i class="ti-share"></i> Sent Email</div>
+                                            <h2>{{ $email_sent }}</h2>
+                                        </div>
+                                        <canvas id="seolinechart2" height="83" width="501" style="display: block; width: 501px; height: 83px;" class="chartjs-render-monitor"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mt-md-5 mb-3">
+                                <div class="card">
+                                    <div class="seo-fact sbg3"><div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                                        <div class="p-4 d-flex justify-content-between align-items-center">
+                                            <div class="seofct-icon"><i class="ti-share"></i> Pending Email</div>
+                                            <h2>{{ $pending_email }}</h2>
+                                        </div>
+                                        <canvas id="seolinechart6" height="83" width="501" style="display: block; width: 501px; height: 83px;" class="chartjs-render-monitor"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="col-md-6 mb-3 mb-lg-0">
+                                <div class="card">
+                                    <div class="seo-fact sbg3">
+                                        <div class="p-4 d-flex justify-content-between align-items-center"><div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                                            <div class="seofct-icon">Impressions</div>
+                                            <canvas id="seolinechart3" height="60" width="200" style="display: block;" class="chartjs-render-monitor"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="seo-fact sbg4">
+                                        <div class="p-4 d-flex justify-content-between align-items-center"><div class="chartjs-size-monitor" style="position: absolute; inset: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+                                            <div class="seofct-icon">New Users</div>
+                                            <canvas id="seolinechart4" height="60" width="200" style="display: block;" class="chartjs-render-monitor"></canvas>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div> -->
+                        </div>
+                    </div>
+                    <!-- seo fact area end -->
+                    <!-- Advertising area start -->
+                    <div class="col-md-4 coin-distribution">
+                        <div class="card h-full" style="border-bottom:1px solid black;">
+                            <div class="card-body">
+                                <h4 class="header-title mb-0">Email</h4>
+                                <div id="coin_distribution"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Advertising area end -->
+                </div>
+        <!-- chart section end -->
+        <div class="row table-section">
+            <div class="col-12 p-0">
                 <div class="card">
                     <div class="card-body">
                         <div class="market-status-table mt-4">
@@ -188,8 +269,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                        <button type="submit" class="btn btn-primary">Add Keyword</button>
                     </div>
                 </form>
             </div>
@@ -199,84 +280,5 @@
     @endsection
 
     @section('script')
-
-    <script>
-    function showSuccessMessage(message) {
-        swal.fire('Success', message, 'success');
-    }
-
-    function searchWord() {
-        var formData = $("#keywordForm").serialize();
-        $.ajax({
-            url: 'add/keyword',
-            type: 'POST',
-            data: formData,
-            dataType: 'json',
-            success: function(response) {
-                console.log(response);
-                if (response.success) {
-                    // swal.fire('success' , response.message);
-                    swal.fire({
-                        title: 'success',
-                        text: response.message,
-                        type: 'success',
-                        confirmButtonText: 'OK'
-                    }).then(function() {
-                        location.reload();
-                    });
-                }
-            },
-            error: function(errors) {
-                console.log(errors);
-                // swal.fire('Error' , errors);
-            }
-        });
-    }
-
-    function deleteKeyword(id) {
-
-        swal.fire({
-            title: 'Are you sure',
-            text: 'You want to delete the keyword',
-            confirmButtonText: 'Yes',
-            showCancelButton: true,
-            cancelButtonText: 'No',
-        }).then(function(result) {
-
-            if (result.value) {
-                $.ajax({
-                    url: '/delete/keyword/' + id,
-                    type: 'get',
-                    dataType: 'json',
-                    data: {
-                        id,
-                        id
-                    },
-                    success: function(response) {
-                        swal.fire({
-                            title: 'success',
-                            text: response.message,
-                            type: 'success',
-                            confirmButtonText: 'OK'
-                        }).then(function() {
-                            location.reload();
-                        });
-                    },
-                    error: function(response) {
-                        console.log(response)
-                        swal.fire('Error', 'Something went wrong', 'error')
-                    }
-
-                });
-
-            }
-        });
-
-    }
-
-    function resetForm() {
-        $('#searchFilter').val('');
-        $('#submit').click();
-    }
-    </script>
+    @include('keyword_script')  
     @endsection

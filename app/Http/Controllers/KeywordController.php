@@ -52,15 +52,23 @@ class KeywordController extends Controller
             $keywords = Keyword::latest()->paginate(10);
         }
 
-        $records = [];
-        $scanned_ids = KeywordRecord::pluck('keyword_id')->groupBy('keyword_id')->first();
+        // $scanned_ids = KeywordRecord::pluck('keyword_id')->groupBy('keyword_id')->first();
+        $total_email = KeywordRecord::count();
+        $email_sent = KeywordRecord::where('email_sent' , 1)->count();
+        $pending_email = $total_email - $email_sent;
 
-        if($scanned_ids != null){
 
-            $records = Keyword::whereIn('id', $scanned_ids)->get();
+        // if($scanned_ids != null){
 
-        }
-        return view('dashboard', ['keywords' => $keywords , 'records' => $records]);
+        //     $records = Keyword::whereIn('id', $scanned_ids)->get();
+
+        // }
+        return view('dashboard', [
+            'keywords' => $keywords , 
+            'total_email' => $total_email , 
+            'email_sent' => $email_sent  , 
+            'pending_email' => $pending_email
+        ]);
     }
     public function addKeyword(Request $request)
     {
@@ -168,7 +176,7 @@ class KeywordController extends Controller
                 session()->forget('createdTo');
             }
 
-            $email_list = $query->paginate(50);
+            $email_list = $query->latest()->paginate(50);
 
         }else{
 
@@ -178,7 +186,7 @@ class KeywordController extends Controller
             session()->forget('createdFrom');
             session()->forget('createdTo');
             
-            $email_list = KeywordRecord::paginate(50);
+            $email_list = KeywordRecord::latest()->paginate(50);
         }
 
         $keywords = Keyword::all();

@@ -278,7 +278,7 @@
     <!-- all line chart activation -->
     <script src="{{ asset('assets/js/line-chart.js')}}"></script>
     <!-- all pie chart -->
-    <script src="{{ asset('assets/js/pie-chart.js')}}"></script>
+    <!-- <script src="{{ asset('assets/js/pie-chart.js')}}"></script> -->
     <!-- others plugins -->
     <script src="{{ asset('assets/js/plugins.js')}}"></script>
     <script src="{{ asset('assets/js/scripts.js')}}"></script>
@@ -365,7 +365,6 @@
             $('#searchFilter').val('');
             $('#submit').click();
         }
-
 
     </script>
 </body>

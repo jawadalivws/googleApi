@@ -18,6 +18,18 @@
     .fixed-size-cell {
         width: 250px;
     }
+    .filter-section{
+        background: white!important;
+        margin-top: 2%!important;
+        padding-bottom: 2%!important;
+        border-radius: 10px;
+    }
+    .table-section{
+        border-radius: 10px;
+    }
+    .form-control{
+        background-color:whitesmoke!important;
+    }
     </style>
 </head>
 
@@ -36,7 +48,17 @@
         {{ $errors->first('keyword') }}
     </div>
     @endif
-    <form action="/email/list" method="post">
+    <div class="row mt-5 mb-5">
+            <div class="col-md-12 p-0">
+                <button class="btn btn-info float-right" id="toggle_filter" onclick="toggleFilter()">Show Filters</button>
+                <a href="{{ route('export')}}" class="btn btn-success pull-right mr-3">Export All Emails</a>
+                <!-- <button type="button" class="btn btn-primary float-right mr-3" data-toggle="modal" data-target="#addKeywordModal">Add
+                    Keyword</button> -->
+            </div>
+        </div>
+    <div class="row filter-section mb-5" style="display: none;">
+        <div class="col-md-12">
+        <form action="/email/list" method="post">
         @csrf
         <div class="row">
             <div class="col-md-12">
@@ -89,19 +111,20 @@
                 <input type="submit" id="submit" value="Search" class="btn btn-primary mt-3">
                 <!-- <input type="button" value="Reset" onclick="resetForm()" class="btn btn-danger mt-3"> -->
                 <a href="/email/list" class="btn btn-danger mt-3 text-white">Reset</a>
-                <a href="{{ route('export')}}" class="btn btn-success pull-right mt-3">Export All Emails</a>
             </div>
         </div>
 
     </form>
+        </div>
+    </div>
     <!-- <div class="row">
         <div class="col-md-12">
         <h3 class="p-3" style="">All Emails</h3>
         </div>
     </div> -->
-    <div class="row mt-5 mb-5">
+    <div class="row table-section mt-5 mb-5">
         <!-- <h3 class="" style="">All Emails</h3> -->
-        <div class="col-12">
+        <div class="col-12 p-0">
             <div class="card">
                 <div class="card-body">
                     <div class="market-status-table mt-4">
@@ -152,6 +175,14 @@
 @section('script')
 
 <script>
+
+$(document).ready(function(){
+
+<?php if(session()->get('search_keyword') || session()->get('createdFrom') || session()->get('createdTo') || session()->get('title') || session()->get('email')){ ?>
+     $('.filter-section').toggle();
+<?php  } ?>
+});
+
 function showSuccessMessage(message) {
     swal.fire('Success', message, 'success');
 }
@@ -190,5 +221,15 @@ function resetForm() {
     $('#search_keyword').val('');
     $('#submit').click();
 }
+
+function toggleFilter(){
+        $('.filter-section').toggle();
+        if($('#toggle_filter').text() == 'Show Filters'){
+            $('#toggle_filter').text('Hide Filters');
+        }else{
+            $('#toggle_filter').text('Show Filters');
+        }
+        console.log(this);
+    }
 </script>
 @endsection
