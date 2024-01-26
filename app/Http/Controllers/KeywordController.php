@@ -49,7 +49,7 @@ class KeywordController extends Controller
             session()->forget('createdFrom');
             session()->forget('createdTo');
 
-            $keywords = Keyword::latest()->paginate(10);
+            $keywords = Keyword::latest()->paginate(20);
         }
 
         // $scanned_ids = KeywordRecord::pluck('keyword_id')->groupBy('keyword_id')->first();

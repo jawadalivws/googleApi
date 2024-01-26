@@ -106,7 +106,7 @@ if ($('#coin_distribution').length) {
         "graphset": [{
                 "type": "pie",
                 "background-color": "#fff",
-                "height": '300px',
+                "height": '290px',
                 "legend": {
                     "background-color": "none",
                     "border-width": 0,

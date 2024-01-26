@@ -38,6 +38,7 @@ class ComposerStaticInitd2f2904ac5ce867a7a4b8c742c16bccf
         'ce9671a430e4846b44e1c68c7611f9f5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         'c379e2a4ec3735f6c4915556c8c81813' => __DIR__ . '/..' . '/rap2hpoutre/fast-excel/src/functions/fastexcel.php',
+        '83926a8ce548561e7e05a196ab9d9b27' => __DIR__ . '/../..' . '/app/helper/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (

@@ -30,6 +30,11 @@
     .form-control{
         background-color:whitesmoke!important;
     }
+    .table>tbody>tr>td{
+    padding: 5px!important;
+    line-height: 2.1!important;
+    border-top: 1px solid #ddd;
+}
     </style>
 </head>
 
@@ -129,30 +134,30 @@
                 <div class="card-body">
                     <div class="market-status-table mt-4">
                         <div class="table-responsive">
-                            <table class="dbkit-table">
-                                <tr class="heading-td">
-                                    <td class="mv-icon">Sr#</td>
-                                    <td class="coin-name" style="margin-left: -8%">Keyword</td>
-                                    <td class="coin-name" style="margin-right: 4%">Title</td>
-                                    <td class="coin-name" style="margin-left: -2%">Email</td>
-                                    <td class="coin-name">Created date</td>
+                            <table class="table table-bordered text-center">
+                                <tr class="bg-info text-uppercase text-white thead">
+                                    <td>Sr#</td>
+                                    <td>Keyword</td>
+                                    <td>Title</td>
+                                    <td>Email</td>
+                                    <td>Created date</td>
                                     <!-- <td class="coin-name">Contact</td> -->
                                 </tr>
                                 @if(count($email_list) > 0)
                                 @foreach($email_list as $data)
                                 <tr class="text-end">
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td class="fixed-size-cell">{{ $data->keywords->name }}</td>
-                                    <td style="width: 300px;">{!! wordwrap($data->title, 40,'<br>') !!}</td>
+                                    <td class="align-middle">{{ $loop->iteration }}</td>
+                                    <td class="align-middle">{{ $data->keywords->name }}</td>
+                                    <td class="align-middle">{!! wordwrap($data->title, 40,'<br>') !!}</td>
                                     <!-- https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose='new -->
-                                    <td class="fixed-size-cell">{{ $data->email }}</td>
+                                    <td class="align-middle" class="fixed-size-cell">{{ $data->email }}</td>
                                     @php($contact = 'Contact us')
                                     @if($data->url == '')
                                     @php($contact = '--')
                                     @endif
-                                    <!-- <td class="break-line" colspan="3"><a title="{{$data->url}}"
+                                    <!-- <td class="align-middle" class="break-line" colspan="3"><a title="{{$data->url}}"
                                             href="{{$data->url}}">{{ $contact }}</a></td> -->
-                                    <td><span class="label label-success">{{ $data->created_at }}</span></td>
+                                    <td class="align-middle"><span class="label label-success">{{ getTimeAgo($data->created_at) }}</span></td>
                                 </tr>
                                 @endforeach
                                 @else

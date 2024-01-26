@@ -59,25 +59,19 @@
         </div>
                 
     </form> -->
-    <div class="row mt-5 mb-4">
-        <div class="col-md-2 offset-10 text-end">
-            <a href="{{ route('export' , ['keyword' => $keyword->id]) }}" class="btn btn-success pull-right">Export
-                Emails</a>
-        </div>
-    </div>
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="market-status-table mt-4">
                         <div class="table-responsive">
-                            <table class="dbkit-table" id="myTable">
+                            <table class="table table-bordered" id="myTable">
                                 <thead class="heading-td">
-                                    <th class="mv-icon orderable">Sr#</th>
-                                    <th class="coin-name">Keyword</th>
-                                    <th class="coin-name">Title</th>
-                                    <th class="coin-name">Email</th>
-                                    <th class="coin-name">Email Sent</th>
+                                    <th class="">Sr#</th>
+                                    <th class="">Keyword</th>
+                                    <th class="">Title</th>
+                                    <th class="">Email</th>
+                                    <th class="">Email Sent</th>
                                     <!-- <th class="coin-name">Contact</th> -->
                                 </thead>
                                 @if(count($keyword->keyword_records) > 0)
@@ -162,7 +156,7 @@
             columns: [{
                     type: 'num',
                     targets: 0
-                }, // For Sr#
+                },// For Sr#
                 null, // Keyword
                 null, // Title
                 null, // Email
