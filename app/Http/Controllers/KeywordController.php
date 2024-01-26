@@ -75,10 +75,12 @@ class KeywordController extends Controller
   
         $request->validate([
             'keyword' => 'required|unique:keywords,name',
+            'compain_id' => 'required',
         ]);
         
         $insert = Keyword::insert([
             'name' => $request->keyword,
+            'compain_id' => $request->compain_id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);

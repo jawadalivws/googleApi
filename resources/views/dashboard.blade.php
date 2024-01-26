@@ -247,8 +247,19 @@
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
+                            <label for="keyword">Keyword</label>
                             <input type="text" id="keyword" name="keyword" class="form-control"
                                 placeholder="Enter a Keyword" style="" required="">
+                        </div>
+                        <div class="form-group">
+                            <label for="compain_id">Compain ID</label>
+                            <select name="compain_id" id="compain_id" class="form-control" style="height: 1%;">
+                                <option value="001">Compain 1</option>
+                                <option value="002">Compain 2</option>
+                                <option value="003">Compain 3</option>
+                                <option value="004">Compain 4</option>
+                                <option value="005">Compain 5</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
