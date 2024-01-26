@@ -152,7 +152,7 @@ if ($('#coin_distribution').length) {
                 "series": [{
                         "values": [<?php echo $total_email; ?>],
                         "text": "Total Email",
-                        "background-color": "#4cff63"
+                        "background-color": "#da5c54"
                     },
                     {
                         "values": [<?php echo $email_sent; ?>],
