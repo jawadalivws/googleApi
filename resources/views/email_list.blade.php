@@ -140,6 +140,7 @@
                                     <td>Keyword</td>
                                     <td>Title</td>
                                     <td>Email</td>
+                                    <td>Compain ID</td>
                                     <td>Created date</td>
                                     <!-- <td class="coin-name">Contact</td> -->
                                 </tr>
@@ -151,12 +152,7 @@
                                     <td class="align-middle">{!! wordwrap($data->title, 40,'<br>') !!}</td>
                                     <!-- https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose='new -->
                                     <td class="align-middle" class="fixed-size-cell">{{ $data->email }}</td>
-                                    @php($contact = 'Contact us')
-                                    @if($data->url == '')
-                                    @php($contact = '--')
-                                    @endif
-                                    <!-- <td class="align-middle" class="break-line" colspan="3"><a title="{{$data->url}}"
-                                            href="{{$data->url}}">{{ $contact }}</a></td> -->
+                                    <td class="align-middle">{{ getCompain()[$keyword->compain_id]}}</td>                                
                                     <td class="align-middle"><span class="label label-success">{{ getTimeAgo($data->created_at) }}</span></td>
                                 </tr>
                                 @endforeach

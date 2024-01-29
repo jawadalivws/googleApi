@@ -243,11 +243,7 @@
                                     <td class="align-middle">
                                         <span for="" class="{{ $class }}">{{ $scan }}</span>
                                     </td>
-                                    <td class="align-middle">
-                                        @php($compain = $keyword->compain_id == '001' ? 'Default
-                                        Compain':$keyword->compain_id)
-                                        {{ $compain }}
-                                    </td>
+                                    <td class="align-middle">{{ getCompain()[$keyword->compain_id]}}</td>
                                     <td class="align-middle"><span class="label label-success">{{ getTimeAgo($keyword->created_at) }}</span>
                                     </td>
                                     <td class="align-middle">

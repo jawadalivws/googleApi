@@ -71,6 +71,7 @@
                                     <th class="">Keyword</th>
                                     <th class="">Title</th>
                                     <th class="">Email</th>
+                                    <th class="">Compain ID</th>
                                     <th class="">Email Sent</th>
                                     <!-- <th class="coin-name">Contact</th> -->
                                 </thead>
@@ -81,12 +82,7 @@
                                     <td class="fixed-size-cell">{{ $keyword->name }}</td>
                                     <td style="width: 300px;">{!! wordwrap($data->title, 40,'<br>') !!}</td>
                                     <td class="fixed-size-cell">{{ $data->email }}</td>
-                                    @php($contact = 'Contact us')
-                                    @if($data->url == '')
-                                    @php($contact = '--')
-                                    @endif
-                                    <!-- <td class="break-line" colspan="3"><a title="{{$data->url}}"
-                                                        href="{{$data->url}}">{{ $contact }}</a></td> -->
+                                    <td class="align-middle">{{ getCompain()[$keyword->compain_id]}}</td>  
                                     @if($data->email_sent == true)
                                     @php($email_sent = 'yes')
                                     @else
@@ -160,6 +156,7 @@
                 null, // Keyword
                 null, // Title
                 null, // Email
+                null, // compain ID
                 null // Contact
             ],
             order: [
