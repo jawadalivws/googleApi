@@ -332,7 +332,7 @@ class KeywordController extends Controller
 
     public function updateEmailRecord(Request $request)
     {
-        $email = $request->email;
+        $email = $request->email?$request->email:null;
 
         if($email != null){
 
@@ -346,17 +346,17 @@ class KeywordController extends Controller
                 $update->save();
                 if(isset($update->id)){
 
-                    return response(true , 'Email Record Updated Successfully.' , 200);
+                    return response([true , 'Email Record Updated Successfully.' , 200]);
                 }else{
 
-                    return response(false , 'Something went wrong.' , 201);
+                    return response([false , 'Something went wrong.' , 201]);
                 }
             }else{
-                
-                return response(false , 'Email Not Found' , 201);
+
+                return response([false , 'Email Not Found' , 201]);
             }
         }else{
-            return response(false , 'Email cannot be empty' , 201);
+            return response([false , 'Email cannot be empty' , 201]);
         }
     }
 }
