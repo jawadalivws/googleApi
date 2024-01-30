@@ -318,6 +318,38 @@ class KeywordController extends Controller
 
     public function putDate(Request $request)
     {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://email.updatemedaily.com/campaigns/add_campaign_email',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS => array('campaign_id' => '215','contact_email' => 'abc@gmail.com'),
+        CURLOPT_HTTPHEADER => array(
+            'Cookie: ci_session=p24kmm1qgsn7dnnlilifndr6a7s3g7kc'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        echo $response;
+
+exit;
+        $response = HTTP::post('https://email.updatemedaily.com/campaigns/add_campaign_email',
+            [
+                'campaign_id' => 215,
+                'contact_email' => 'abc@gmail.com',
+            ]);
+
+        $response = json_decode($response->getBody()->getContents());
+        dd($response->is_success);      
+        
         
         $stringDate = $request->date;
         $id = $request->id;
@@ -362,4 +394,5 @@ class KeywordController extends Controller
             return response(['success' => false , 'message' => 'Email cannot be empty' ,  'status' => 201]);
         }
     }
+
 }
