@@ -118,10 +118,13 @@ class KeywordController extends Controller
     public function keywordDetail($id)
     {
         $keyword = Keyword::where('id' , $id)->first();
-        
+        $segment_one = request()->segment(1);
+        $segment_two =  request()->segment(2);
+
+        $uri = $segment_one.'/'.$segment_two;
         if(isset($keyword->id)){
             // dd($keyword->keyword_records);
-            return view('keyword_detail' , ['keyword' => $keyword]);
+            return view('keyword_detail' , ['keyword' => $keyword , 'uri' => $uri]);
             
         }else{
             
