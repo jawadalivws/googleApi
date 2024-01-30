@@ -329,4 +329,34 @@ class KeywordController extends Controller
         }
         dd('error');
     }
+
+    public function updateEmailRecord(Request $request)
+    {
+        $email = $request->email;
+
+        if($email != null){
+
+            $email_exist = KeywordRecord::where('email' , $email)->first();
+
+            if(isset($email_exist->id)){
+
+                $update = new KeywordRecord;
+                $update = $update->where('email' , $email)->first();
+                $update->email = $email;
+                $update->save();
+                if(isset($update->id)){
+
+                    return response(true , 'Email Record Updated Successfully.' , 200);
+                }else{
+
+                    return response(false , 'Something went wrong.' , 201);
+                }
+            }else{
+                
+                return response(false , 'Email Not Found' , 201);
+            }
+        }else{
+            return response(false , 'Email cannot be empty' , 201);
+        }
+    }
 }
