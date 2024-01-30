@@ -349,17 +349,17 @@ class KeywordController extends Controller
                 $update->save();
                 if(isset($update->id)){
 
-                    return response([true , 'Email Record Updated Successfully.' , 200]);
+                    return response(['success' => true , 'message' => 'Email Record Updated Successfully.' , 'status' => 200]);
                 }else{
 
-                    return response([false , 'Something went wrong.' , 201]);
+                    return response(['success' => false , 'message' => 'Something went wrong.' ,  'status' => 201]);
                 }
             }else{
 
-                return response([false , 'Email Not Found' , 201]);
+                return response(['success' => false , 'message' => 'Email Not Found' ,  'status' => 201]);
             }
         }else{
-            return response([false , 'Email cannot be empty' , 201]);
+            return response(['success' => false , 'message' => 'Email cannot be empty' ,  'status' => 201]);
         }
     }
 }
