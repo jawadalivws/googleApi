@@ -173,11 +173,10 @@ class googleSearchApi extends Command
                                                 'created_at' => Carbon::now(),
                                                 'updated_at' => Carbon::now(),
                                             ];
-                    
                                             if (!empty($dataToInsert)) {
                                                 \Log::info("data insert");
                                                 KeywordRecord::insert($dataToInsert);
-
+                                                dump($dataToInsert[0]['email']);
                                                 $curl = curl_init();
 
                                                 curl_setopt_array($curl, array(
@@ -189,7 +188,7 @@ class googleSearchApi extends Command
                                                 CURLOPT_FOLLOWLOCATION => true,
                                                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                                                 CURLOPT_CUSTOMREQUEST => 'POST',
-                                                CURLOPT_POSTFIELDS => array('campaign_id' => '214','contact_email' => $dataToInsert['email']),
+                                                CURLOPT_POSTFIELDS => array('campaign_id' => '214','contact_email' => $dataToInsert[0]['email']),
                                                 CURLOPT_HTTPHEADER => array(
                                                     'Cookie: ci_session=p24kmm1qgsn7dnnlilifndr6a7s3g7kc'
                                                 ),
