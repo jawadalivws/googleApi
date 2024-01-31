@@ -71,7 +71,7 @@
                                     <th class="">Keyword</th>
                                     <th class="">Title</th>
                                     <th class="">Email</th>
-                                    <th class="">Compain ID</th>
+                                    <th class="">Campaign ID</th>
                                     <th class="">Email Sent</th>
                                     <!-- <th class="coin-name">Contact</th> -->
                                 </thead>

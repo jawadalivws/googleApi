@@ -140,7 +140,7 @@
                                     <td>Keyword</td>
                                     <td>Title</td>
                                     <td>Email</td>
-                                    <td>Compain ID</td>
+                                    <td>Campaign ID</td>
                                     <td>Created date</td>
                                     <!-- <td class="coin-name">Contact</td> -->
                                 </tr>

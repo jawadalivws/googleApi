@@ -220,7 +220,7 @@
                                     <td class="">Sr#</td>
                                     <td class="">Keyword</td>
                                     <td class="">Status</td>
-                                    <td class="">Compain ID</td>
+                                    <td class="">Campaign ID</td>
                                     <td class="">Created Date</td>
                                     <td class="">Action</td>
                                 </tr>
@@ -363,7 +363,7 @@
                     <div class="form-group">
                         <label for="compain_id">Compain ID</label>
                         <select name="compain_id" id="compain_id" class="form-control" style="height: 1%;">
-                            <option value="001">Default Compain</option>
+                            <option value="001">Default Campaign</option>
                             <option value="002">Compain 2</option>
                             <option value="003">Compain 3</option>
                             <option value="004">Compain 4</option>
