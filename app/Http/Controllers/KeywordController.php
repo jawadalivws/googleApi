@@ -344,7 +344,7 @@ class KeywordController extends Controller
 
                 $update = new KeywordRecord;
                 $update = $update->where('email' , $email)->first();
-                $update->email_sent = 'yes';
+                $update->email_sent = true;
                 $update->save();
                 if(isset($update->id)){
 
