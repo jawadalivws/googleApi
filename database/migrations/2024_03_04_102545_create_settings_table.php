@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddEmailSentToKeywordRecordsTable extends Migration
+class CreateSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddEmailSentToKeywordRecordsTable extends Migration
      */
     public function up()
     {
-        Schema::table('keyword_records', function (Blueprint $table) {
-            $table->boolean('email_sent')->after('url')->default(false);
+        Schema::create('settings', function (Blueprint $table) {
+            $table->id();
+            $table->bigInteger('campaign_id');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ class AddEmailSentToKeywordRecordsTable extends Migration
      */
     public function down()
     {
-        Schema::table('keyword_records', function (Blueprint $table) {
-            $table->dropColumn('email_sent');
-        });
+        Schema::dropIfExists('settings');
     }
 }

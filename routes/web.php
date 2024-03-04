@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KeywordController;
+use App\Http\Controllers\SettingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -30,6 +31,10 @@ Route::match(['get' ,'post']  ,'/export', [KeywordController::class , 'export'])
 Route::match(['get' ,'post'] , '/search/keyword', [KeywordController::class , 'searchKeyword'])->name('search_keyword')->middleware('auth');
 Route::match(['get' ,'post'] , '/putdate', [KeywordController::class , 'putDate'])->name('putdate')->middleware('auth');
 Route::post('/import/csv', [KeywordController::class , 'ImportSentEmailCsv'])->name('import_csv')->middleware('auth');
+
+Route::match(['get' ,'post'] , '/campaign_id', [SettingController::class , 'index'])->name('campaign_id_index')->middleware('auth');
+Route::match(['get' ,'post'] , 'add/campaign_id', [SettingController::class , 'store'])->name('add_campaign_id')->middleware('auth');
+Route::match(['get' ,'post'] , '/campaign_id_update', [SettingController::class , 'update'])->name('campaign_id_update')->middleware('auth');
 
 Route::get('/clear', function() {
 

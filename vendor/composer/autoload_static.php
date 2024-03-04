@@ -584,6 +584,7 @@ class ComposerStaticInitd2f2904ac5ce867a7a4b8c742c16bccf
         'App\\Http\\Requests\\Auth\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Auth/LoginRequest.php',
         'App\\Models\\Keyword' => __DIR__ . '/../..' . '/app/Models/Keyword.php',
         'App\\Models\\KeywordRecord' => __DIR__ . '/../..' . '/app/Models/KeywordRecord.php',
+        'App\\Models\\Setting' => __DIR__ . '/../..' . '/app/Models/Setting.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
         'App\\Providers\\AuthServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AuthServiceProvider.php',

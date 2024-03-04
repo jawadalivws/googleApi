@@ -14,6 +14,9 @@
                             <li class="{{ request()->is('email/list') ? 'active' : '' }}">
                                 <a href="/email/list"><i class="ti-email"></i><span>Email List</span></a>
                             </li>
+                            <li class="{{ request()->is('/campaign_id') ? 'active' : '' }}">
+                                <a href="/campaign_id"><i class="fa-solid fa-id-card"></i><span>Campaign ID</span></a>
+                            </li>
                             <!-- <li class="{{ request()->is('/sent/email*') ? 'active' : '' }}">
                                 <a href="/sent/email"><i class="ti-email"></i><span>Sent Email</span></a>
                             </li> -->

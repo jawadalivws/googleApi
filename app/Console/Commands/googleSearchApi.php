@@ -14,6 +14,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use App\Models\Setting;
 
 class googleSearchApi extends Command
 {
@@ -50,6 +51,8 @@ class googleSearchApi extends Command
     {
         $scannedIds = KeywordRecord::groupBy('keyword_id')->pluck('keyword_id');
         $words = Keyword::whereNotIn('id' , $scannedIds)->get();
+        $campaign_id = Setting::first();
+        $campaign_id = $campaign_id->campaign_id;
 
         if(count($words) > 0){
             foreach($words as $word){
@@ -188,7 +191,7 @@ class googleSearchApi extends Command
                                                 CURLOPT_FOLLOWLOCATION => true,
                                                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                                                 CURLOPT_CUSTOMREQUEST => 'POST',
-                                                CURLOPT_POSTFIELDS => array('campaign_id' => '214','contact_email' => $dataToInsert[0]['email']),
+                                                CURLOPT_POSTFIELDS => array('campaign_id' => '{{ $campaign_id }}','contact_email' => $dataToInsert[0]['email']),
                                                 CURLOPT_HTTPHEADER => array(
                                                     'Cookie: ci_session=p24kmm1qgsn7dnnlilifndr6a7s3g7kc'
                                                 ),
