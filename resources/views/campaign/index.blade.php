@@ -54,11 +54,16 @@
     </div>
     @endif
 
-    <div class="row mt-5">
+    {{-- <div class="row mt-5">
         <div class="col-md-12 p-0">
             <button type="button" class="btn btn-primary float-right mr-3" data-toggle="modal"
                 data-target="#addCampaignModal">Add
                 Campaign ID</button>
+        </div>
+    </div> --}}
+    <div class="row mt-5">
+        <div class="col-12">
+            <h3>Campaign ID</h3>
         </div>
     </div>
     <div class="row table-section mt-3 mb-5">

@@ -24,7 +24,7 @@ class SettingController extends Controller
             'campaign_id' => $request->campaign_id,
         ]);
 
-        return redirect()->route('campaign_id_index')->with('success' , 'Campaign ID Added successfully.');
+        return redirect()->route('setting')->with('success' , 'Campaign ID Added successfully.');
     }
 
     public function update(Request $request)
@@ -41,10 +41,10 @@ class SettingController extends Controller
                 'campaign_id' => $request->campaign_id,
             ]);
 
-            return redirect()->route('campaign_id_index')->with('success', 'Campaign ID Updated successfully.');
+            return redirect()->route('setting')->with('success', 'Campaign ID Updated successfully.');
         }else{
 
-            return redirect()->route('campaign_id_index')->with('error' , 'Campaign ID not found.');
+            return redirect()->route('setting')->with('error' , 'Campaign ID not found.');
         }
         
     }
