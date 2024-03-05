@@ -17,17 +17,6 @@
                             <li class="{{ request()->is('setting') ? 'active' : '' }}">
                                 <a href="/setting"><i class="ti-id-badge"></i><span>Setting</span></a>
                             </li>
-                            <!-- <li class="{{ request()->is('/sent/email*') ? 'active' : '' }}">
-                                <a href="/sent/email"><i class="ti-email"></i><span>Sent Email</span></a>
-                            </li> -->
-                            <!-- <li>
-                                <a href="javascript:void(0)" aria-expanded="true"><i class="ti-pie-chart"></i><span>Charts</span></a>
-                                <ul class="collapse">
-                                    <li><a href="barchart.html">bar chart</a></li>
-                                    <li><a href="linechart.html">line Chart</a></li>
-                                    <li><a href="piechart.html">pie chart</a></li>
-                                </ul>
-                            </li> -->
                         </ul>
                     </nav>
                 </div>
