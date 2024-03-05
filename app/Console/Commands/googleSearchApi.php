@@ -191,7 +191,7 @@ class googleSearchApi extends Command
                                                 CURLOPT_FOLLOWLOCATION => true,
                                                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                                                 CURLOPT_CUSTOMREQUEST => 'POST',
-                                                CURLOPT_POSTFIELDS => array('campaign_id' => '{{ $campaign_id }}','contact_email' => $dataToInsert[0]['email']),
+                                                CURLOPT_POSTFIELDS => array('campaign_id' => $campaign_id,'contact_email' => $dataToInsert[0]['email']),
                                                 CURLOPT_HTTPHEADER => array(
                                                     'Cookie: ci_session=p24kmm1qgsn7dnnlilifndr6a7s3g7kc'
                                                 ),
