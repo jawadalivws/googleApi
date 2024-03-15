@@ -14,9 +14,9 @@
                             <li class="{{ request()->is('email/list') ? 'active' : '' }}">
                                 <a href="/email/list"><i class="ti-email"></i><span>Email List</span></a>
                             </li>
-                            <li class="{{ request()->is('setting') ? 'active' : '' }}">
+                            {{-- <li class="{{ request()->is('setting') ? 'active' : '' }}">
                                 <a href="/setting"><i class="ti-id-badge"></i><span>Setting</span></a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </nav>
                 </div>

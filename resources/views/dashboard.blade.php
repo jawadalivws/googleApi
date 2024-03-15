@@ -67,6 +67,11 @@
         {{ $errors->first('keyword') }}
     </div>
     @endif
+    @if ($errors->has('campaign_id'))
+    <div class="alert alert-danger mt-5">
+        {{ $errors->first('campaign_id') }}
+    </div>
+    @endif
 
     <!-- chart section -->
     <div class="row mt-5">
@@ -243,10 +248,12 @@
                                     <td class="align-middle">
                                         <span for="" class="{{ $class }}">{{ $scan }}</span>
                                     </td>
-                                    <td class="align-middle">{{ getCompain()[$keyword->compain_id]}}</td>
+                                    <td class="align-middle">{{ $keyword->compain_id }}</td>
                                     <td class="align-middle"><span class="label label-success">{{ getTimeAgo($keyword->created_at) }}</span>
                                     </td>
                                     <td class="align-middle">
+                                        <a href="#" onclick="editKeyword('{{ $keyword->name }}', '{{ $keyword->compain_id }}' , '{{ $keyword->id }}')"
+                                            class="btn btn-primary btn-sm"><i class="ti-pencil"></i></a>
                                         <a href="#" onclick="deleteKeyword({{$keyword->id}})"
                                             class="btn btn-danger btn-sm"><i class="ti-trash"></i></a>
                                         <a href="/keyword/detail/{{$keyword->id}}" class="btn btn-info btn-sm"><i
@@ -358,17 +365,12 @@
                     <div class="form-group">
                         <label for="keyword">Keyword</label>
                         <input type="text" id="keyword" name="keyword" class="form-control"
-                            placeholder="Enter a Keyword" style="" required="">
+                            value="{{old('keyword')}}" placeholder="Enter a Keyword" style="" required="">
                     </div>
                     <div class="form-group">
-                        <label for="compain_id">Compain ID</label>
-                        <select name="compain_id" id="compain_id" class="form-control" style="height: 1%;">
-                            <option value="001">Default Campaign</option>
-                            <option value="002">Compain 2</option>
-                            <option value="003">Compain 3</option>
-                            <option value="004">Compain 4</option>
-                            <option value="005">Compain 5</option>
-                        </select>
+                        <label for="keyword">Campaign ID</label>
+                        <input type="text" id="campaign_id" name="campaign_id" class="form-control"
+                        value="{{old('campaign_id')}}" placeholder="Enter Campaign ID" style="" required="">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -380,6 +382,42 @@
     </div>
 </div>
 <!-- end modal -->
+<!-- Modal -->
+<div class="modal fade" id="editKeywordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="margin-top: 22%;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Keyword</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/update/keyword" method="post" id="editForm">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="keyword">Keyword</label>
+                        <input type="hidden" name="id" id="editid">
+                        <input type="text" id="editkeyword" name="keyword" class="form-control"
+                            value="{{old('keyword')}}" placeholder="Enter a Keyword" style="" required="">
+                    </div>
+                    <div class="form-group">
+                        <label for="keyword">Campaign ID</label>
+                        <input type="text" id="editcampaign_id" name="campaign_id" class="form-control"
+                        value="{{old('campaign_id')}}" placeholder="Enter Campaign ID" style="" required="">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                    <button type="submit" class="btn btn-primary">Update Keyword</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end modal -->
+
 @endsection
 
 @section('script')

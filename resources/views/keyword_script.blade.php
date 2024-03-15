@@ -38,6 +38,15 @@ function searchWord() {
     });
 }
 
+function editKeyword(name , campaign_id , id){
+    console.log(keyword);
+    // var keyword = JSON.parse(keyword);
+    $('#editkeyword').val(name);
+    $('#editid').val(id);
+    $('#editcampaign_id').val(campaign_id);
+    $('#editKeywordModal').modal('show');
+}
+
 function deleteKeyword(id) {
 
     swal.fire({

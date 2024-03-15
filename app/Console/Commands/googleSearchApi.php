@@ -51,12 +51,12 @@ class googleSearchApi extends Command
     {
         $scannedIds = KeywordRecord::groupBy('keyword_id')->pluck('keyword_id');
         $words = Keyword::whereNotIn('id' , $scannedIds)->get();
-        $campaign_id = Setting::first();
-        $campaign_id = $campaign_id->campaign_id;
+        // $campaign_id = Setting::first();
+        // $campaign_id = $campaign_id->campaign_id;
 
         if(count($words) > 0){
             foreach($words as $word){
-
+                $campaign_id = $word->compain_id;
                 $api_key = env('GOOGLE_SEARCH_API_KEY');
                 $search_id = env('GOOGLE_SEARCH_ENGINE_ID');
                 $results_per_page = 10;

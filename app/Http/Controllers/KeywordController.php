@@ -75,17 +75,40 @@ class KeywordController extends Controller
   
         $request->validate([
             'keyword' => 'required|unique:keywords,name',
-            'compain_id' => 'required',
+            'campaign_id' => 'required|numeric',
         ]);
         
         $insert = Keyword::insert([
             'name' => $request->keyword,
-            'compain_id' => $request->compain_id,
+            'compain_id' => $request->campaign_id,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
 
         return back()->with('success' , 'Word Added Successfully.');
+        // for ajax response
+        // if($insert){
+        //     $data['success'] = true;
+        //     $data['message'] = 'Word Added Successfully.';
+        //     return response()->json($data);
+        // }
+    }
+    public function updateKeyword(Request $request)
+    {
+  
+        $request->validate([
+            'keyword' => 'required|unique:keywords,name',
+            'campaign_id' => 'required|numeric',
+        ]);
+        
+        $update = Keyword::where('id' , $request->id)->update([
+            'name' => $request->keyword,
+            'compain_id' => $request->campaign_id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        return back()->with('success' , 'Word Updated Successfully.');
         // for ajax response
         // if($insert){
         //     $data['success'] = true;

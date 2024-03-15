@@ -24,6 +24,7 @@ use App\Http\Controllers\SettingController;
 
 Route::match(['get' ,'post'] ,'/', [KeywordController::class , 'index'])->name('dashboard')->middleware('auth');
 Route::post('/add/keyword', [KeywordController::class , 'addKeyword'])->name('add_keyword')->middleware('auth');
+Route::post('/update/keyword', [KeywordController::class , 'updateKeyword'])->name('update_keyword')->middleware('auth');
 Route::get('/keyword/detail/{id}', [KeywordController::class , 'keywordDetail'])->name('keyword_detail')->middleware('auth');
 Route::match(['get' ,'post']  , '/email/list', [KeywordController::class , 'emailList'])->name('email_list')->middleware('auth');
 Route::get('/delete/keyword/{id}', [KeywordController::class , 'deleteKeyword'])->name('delete_keyword')->middleware('auth');
