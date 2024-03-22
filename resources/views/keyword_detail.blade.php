@@ -82,7 +82,7 @@
                                     <td class="fixed-size-cell">{{ $keyword->name }}</td>
                                     <td style="width: 300px;">{!! wordwrap($data->title, 40,'<br>') !!}</td>
                                     <td class="fixed-size-cell">{{ $data->email }}</td>
-                                    <td class="align-middle">{{ getCompain()[$keyword->compain_id]}}</td>  
+                                    <td class="align-middle">{{ $keyword->compain_id}}</td>  
                                     @if($data->email_sent == true)
                                     @php($email_sent = 'yes')
                                     @else

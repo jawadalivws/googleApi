@@ -152,7 +152,7 @@
                                     <td class="align-middle">{!! wordwrap($data->title, 40,'<br>') !!}</td>
                                     <!-- https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox?compose='new -->
                                     <td class="align-middle" class="fixed-size-cell">{{ $data->email }}</td>
-                                    <td class="align-middle">{{ getCompain()[$keyword->compain_id]}}</td>                                
+                                    <td class="align-middle">{{ $keyword->compain_id}}</td>                                
                                     <td class="align-middle"><span class="label label-success">{{ getTimeAgo($data->created_at) }}</span></td>
                                 </tr>
                                 @endforeach
