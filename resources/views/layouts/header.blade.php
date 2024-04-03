@@ -13,8 +13,8 @@
                         <input type="hidden" name="_token" value="FKxz20wHpVV1t3ERwkA1VnrwGpdoQrDGeJKYwyDO">                        <input type="submit" class="btn btn-secondary btn-sm" value="Logout">
                     </form> -->
             <a href="logout" class="btn btn-danger btn-sm pull-right ml-2">Logout</a>
-            <button type="button" class="btn btn-primary pull-right btn-sm ml-2" data-toggle="modal"
-                data-target="#importCsv">Import Sent Email CSV</button>
+            {{-- <button type="button" class="btn btn-primary pull-right btn-sm ml-2" data-toggle="modal"
+                data-target="#importCsv">Import Sent Email CSV</button> --}}
             @if(isset($uri) && $uri == 'keyword/detail')
             <a href="{{ route('export' , ['keyword' => $keyword->id]) }}" class="btn btn-success pull-right btn-sm">Export
                 Emails</a>
