@@ -188,6 +188,13 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
+                            <label for="">Search BY Campaign</label>
+                            <input type="text" class="form-control" id="searchFilter" name="searchCampaign"
+                                value="{{ Session::get('searchCampaign');}}" placeholder="Search Campaign">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
                             <label for="">Created From</label>
                             <input type="date" class="form-control" id="createdFrom" name="createdFrom"
                                 value="{{ Session::get('createdFrom');}}">

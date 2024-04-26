@@ -61,7 +61,7 @@ class googleSearchApi extends Command
                 $search_id = env('GOOGLE_SEARCH_ENGINE_ID');
                 $results_per_page = 10;
                 $page = 1;
-                
+                $dataToInsert = [];
                 // AIzaSyB0BGGeRNKp9Y_Sb8kLy4DCxOELJ3tQdro
                 // AIzaSyBLNws_02Wl2y53UCoOv3KKu0RVDalh4zs
                 // AIzaSyD1NxONlC1SzOGW5C1icrGYpjJLKCP6CK4
@@ -88,9 +88,9 @@ class googleSearchApi extends Command
                             // dump($word);
                             $data = json_encode($response->getBody());
     
-                            Keyword::where('id' , $word->id)->update([
-                                'response' => $response,
-                            ]);
+                            // Keyword::where('id' , $word->id)->update([
+                            //     'response' => $response,
+                            // ]);
                             
                             $data = json_decode($response->getBody());
                         // }
@@ -143,29 +143,29 @@ class googleSearchApi extends Command
                                         }
                         
         
-                                        $crawler = new Crawler($page_content);
+                                        // $crawler = new Crawler($page_content);
         
-                                        $contactAnchors = $crawler->filter('a:contains("Contact")');
+                                        // $contactAnchors = $crawler->filter('a:contains("Contact")');
         
-                                        if(!empty($contactAnchors)){
+                                        // if(!empty($contactAnchors)){
                                                                             
-                                        $contactUrls = $contactAnchors->each(function (Crawler $node, $i) {
-                                            return $node->attr('href');
-                                        });
-                                        
-                                        $itemLink = $item->link;
-        
-                                        $baseUrl = parse_url($itemLink, PHP_URL_SCHEME) . '://' . parse_url($itemLink, PHP_URL_HOST);
-        
-                                        if (!empty($contactUrls)) {
+                                        //     $contactUrls = $contactAnchors->each(function (Crawler $node, $i) {
+                                        //         return $node->attr('href');
+                                        //     });
                                             
-                                            $relative_url = parse_url($contactUrls[0], PHP_URL_PATH);
+                                        //     $itemLink = $item->link;
+            
+                                        //     $baseUrl = parse_url($itemLink, PHP_URL_SCHEME) . '://' . parse_url($itemLink, PHP_URL_HOST);
+            
+                                        //     if (!empty($contactUrls)) {
+                                                
+                                        //         $relative_url = parse_url($contactUrls[0], PHP_URL_PATH);
+            
+                                        //         $contact = $baseUrl. $relative_url;
         
-                                            $contact = $baseUrl. $relative_url;
-    
-                                        }
-                                        }
-                                        $dataToInsert = [];
+                                        //     }
+                                        // }
+                                        
         
                                         if($email != ''){
                                             $dataToInsert[] = [
@@ -176,32 +176,7 @@ class googleSearchApi extends Command
                                                 'created_at' => Carbon::now(),
                                                 'updated_at' => Carbon::now(),
                                             ];
-                                            if (!empty($dataToInsert)) {
-                                                \Log::info("data insert");
-                                                KeywordRecord::insert($dataToInsert);
-                                                dump($dataToInsert[0]['email']);
-                                                $curl = curl_init();
-
-                                                curl_setopt_array($curl, array(
-                                                CURLOPT_URL => 'https://email.updatemedaily.com/campaigns/add_campaign_email',
-                                                CURLOPT_RETURNTRANSFER => true,
-                                                CURLOPT_ENCODING => '',
-                                                CURLOPT_MAXREDIRS => 10,
-                                                CURLOPT_TIMEOUT => 0,
-                                                CURLOPT_FOLLOWLOCATION => true,
-                                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                                                CURLOPT_CUSTOMREQUEST => 'POST',
-                                                CURLOPT_POSTFIELDS => array('campaign_id' => $campaign_id,'contact_email' => $dataToInsert[0]['email']),
-                                                CURLOPT_HTTPHEADER => array(
-                                                    'Cookie: ci_session=p24kmm1qgsn7dnnlilifndr6a7s3g7kc'
-                                                ),
-                                                ));
-                                        
-                                                $response = curl_exec($curl);
-                                        
-                                                curl_close($curl);
-                                                echo $response;
-                                            }
+                                            
         
                                         }
                                     }
@@ -225,9 +200,38 @@ class googleSearchApi extends Command
                     }
 
                 }while($page <= PHP_INT_MAX && isset($data->queries->nextPage));
+
+                if (!empty($dataToInsert)) {
+                    \Log::info("data insert");
+                    KeywordRecord::insert($dataToInsert);
+                    foreach($dataToInsert as $data){
+                        // dump($data['email']);
+                        $curl = curl_init();
+
+                        curl_setopt_array($curl, array(
+                        CURLOPT_URL => 'https://email.updatemedaily.com/campaigns/add_campaign_email',
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_ENCODING => '',
+                        CURLOPT_MAXREDIRS => 10,
+                        CURLOPT_TIMEOUT => 0,
+                        CURLOPT_FOLLOWLOCATION => true,
+                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                        CURLOPT_CUSTOMREQUEST => 'POST',
+                        CURLOPT_POSTFIELDS => array('campaign_id' => $campaign_id,'contact_email' => $data['email']),
+                        CURLOPT_HTTPHEADER => array(
+                            'Cookie: ci_session=p24kmm1qgsn7dnnlilifndr6a7s3g7kc'
+                        ),
+                        ));
+                
+                        $response = curl_exec($curl);
+                
+                        curl_close($curl);
+                        echo $response;
+                    }
+                }
             }  
         }
         
-        dd("jawad");
+        // dd("jawad");
     }
 }

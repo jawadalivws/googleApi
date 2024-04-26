@@ -9,36 +9,40 @@ use Illuminate\Support\Facades\Http;
 use Goutte;
 use Rap2hpoutre\FastExcel\FastExcel;
 use GuzzleHttp\Client;
-use Session;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 
 class KeywordController extends Controller
 {
 
     public function index(Request $request)
     {
-        // dd($request);
-        if(isset($request->searchKeyword) || isset($request->createdFrom) || isset($request->createdTo)){
+        // dd($request->method());
+        if($request->method() == 'POST'){
 
             $query = Keyword::query();
+
+            session()->forget('searchCampaign');
+            session()->forget('searchKeyword');
+            session()->forget('createdFrom');
+            session()->forget('createdTo');
+
             if(!empty($request->searchKeyword)){
 
                 Session::put('searchKeyword',$request->searchKeyword);
                 $query->where('name' , 'like' , '%'.$request->searchKeyword.'%');
-            }else{
-                session()->forget('searchKeyword');
             }
             if(!empty($request->createdFrom)){
                 Session::put('createdFrom',$request->createdFrom);
                 $query->where('created_at' , '>=' , $request->createdFrom);
-            }else{
-                session()->forget('createdFrom');
             }
             if(!empty($request->createdTo)){
                 Session::put('createdTo',$request->createdTo);
                 $query->where('created_at' , '<=' , $request->createdTo);
-            }else{
-                session()->forget('createdTo');
+            }
+            if(!empty($request->searchCampaign)){
+                Session::put('searchCampaign',$request->searchCampaign);
+                $query->where('compain_id' , 'like' , '%'.$request->searchCampaign.'%');
             }
 
             $keywords = $query->latest()->paginate(10);
@@ -46,6 +50,7 @@ class KeywordController extends Controller
         }else{
 
             session()->forget('searchKeyword');
+            session()->forget('searchCampaign');
             session()->forget('createdFrom');
             session()->forget('createdTo');
 
