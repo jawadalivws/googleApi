@@ -56,7 +56,6 @@ class googleSearchApi extends Command
 
         if(count($words) > 0){
             foreach($words as $word){
-                dump($word->name);
                 $campaign_id = $word->compain_id;
                 $api_key = env('GOOGLE_SEARCH_API_KEY');
                 $search_id = env('GOOGLE_SEARCH_ENGINE_ID');
@@ -71,7 +70,6 @@ class googleSearchApi extends Command
                 do{
 
                     try{
-
                         // if($word->response != null){
     
                         //     $response = $word->response;
@@ -81,12 +79,13 @@ class googleSearchApi extends Command
                             
 
                             $response = HTTP::get('https://www.googleapis.com/customsearch/v1' , [
-                                'key' => "AIzaSyB0BGGeRNKp9Y_Sb8kLy4DCxOELJ3tQdro",
+                                'key' => "AIzaSyD1NxONlC1SzOGW5C1icrGYpjJLKCP6CK4",
                                 'cx' => "432d043d77144425f",
                                 'q' => $word->name,
                                 'start' => ($page - 1) * $results_per_page + 1, // Calculate the starting index for the current page
                                 'num' => $results_per_page,
                             ]);
+                            
                             // dump($word);
                             $data = json_encode($response->getBody());
     
@@ -205,30 +204,30 @@ class googleSearchApi extends Command
                 if (!empty($dataToInsert)) {
                     \Log::info("data insert");
                     KeywordRecord::insert($dataToInsert);
-                    foreach($dataToInsert as $data){
-                        // dump($data['email']);
-                        $curl = curl_init();
+                    // foreach($dataToInsert as $data){
+                    //     // dump($data['email']);
+                    //     $curl = curl_init();
 
-                        curl_setopt_array($curl, array(
-                        CURLOPT_URL => 'https://email.updatemedaily.com/campaigns/add_campaign_email',
-                        CURLOPT_RETURNTRANSFER => true,
-                        CURLOPT_ENCODING => '',
-                        CURLOPT_MAXREDIRS => 10,
-                        CURLOPT_TIMEOUT => 0,
-                        CURLOPT_FOLLOWLOCATION => true,
-                        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        CURLOPT_CUSTOMREQUEST => 'POST',
-                        CURLOPT_POSTFIELDS => array('campaign_id' => $campaign_id,'contact_email' => $data['email']),
-                        CURLOPT_HTTPHEADER => array(
-                            'Cookie: ci_session=p24kmm1qgsn7dnnlilifndr6a7s3g7kc'
-                        ),
-                        ));
+                    //     curl_setopt_array($curl, array(
+                    //     CURLOPT_URL => 'https://email.updatemedaily.com/campaigns/add_campaign_email',
+                    //     CURLOPT_RETURNTRANSFER => true,
+                    //     CURLOPT_ENCODING => '',
+                    //     CURLOPT_MAXREDIRS => 10,
+                    //     CURLOPT_TIMEOUT => 0,
+                    //     CURLOPT_FOLLOWLOCATION => true,
+                    //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    //     CURLOPT_CUSTOMREQUEST => 'POST',
+                    //     CURLOPT_POSTFIELDS => array('campaign_id' => $campaign_id,'contact_email' => $data['email']),
+                    //     CURLOPT_HTTPHEADER => array(
+                    //         'Cookie: ci_session=p24kmm1qgsn7dnnlilifndr6a7s3g7kc'
+                    //     ),
+                    //     ));
                 
-                        $response = curl_exec($curl);
+                    //     $response = curl_exec($curl);
                 
-                        curl_close($curl);
-                        echo $response;
-                    }
+                    //     curl_close($curl);
+                    //     echo $response;
+                    // }
                 }
             }  
         }
