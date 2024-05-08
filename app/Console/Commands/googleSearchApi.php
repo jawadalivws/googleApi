@@ -56,6 +56,7 @@ class googleSearchApi extends Command
 
         if(count($words) > 0){
             foreach($words as $word){
+                dump($word->name);
                 $campaign_id = $word->compain_id;
                 $api_key = env('GOOGLE_SEARCH_API_KEY');
                 $search_id = env('GOOGLE_SEARCH_ENGINE_ID');
