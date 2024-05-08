@@ -62,6 +62,7 @@ class googleSearchApi extends Command
                 $results_per_page = 10;
                 $page = 1;
                 $dataToInsert = [];
+                $email_array = [];
                 // AIzaSyB0BGGeRNKp9Y_Sb8kLy4DCxOELJ3tQdro
                 // AIzaSyBLNws_02Wl2y53UCoOv3KKu0RVDalh4zs
                 // AIzaSyD1NxONlC1SzOGW5C1icrGYpjJLKCP6CK4
@@ -141,7 +142,6 @@ class googleSearchApi extends Command
                                                 }
                                             }
                                         }
-                        
         
                                         // $crawler = new Crawler($page_content);
         
@@ -166,8 +166,9 @@ class googleSearchApi extends Command
                                         //     }
                                         // }
                                         
-        
-                                        if($email != ''){
+    
+                                        if($email != '' && !in_array($email , $email_array)){
+                                            $email_array[] = $email;
                                             $dataToInsert[] = [
                                                 'keyword_id' => $word->id,
                                                 'email' => $email,
