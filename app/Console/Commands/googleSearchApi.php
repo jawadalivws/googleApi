@@ -166,7 +166,6 @@ class googleSearchApi extends Command
                                         //     }
                                         // }
                                         
-    
                                         if($email != '' && !in_array($email , $email_array)){
                                             $email_array[] = $email;
                                             $dataToInsert[] = [
