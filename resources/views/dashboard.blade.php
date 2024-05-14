@@ -482,7 +482,6 @@
             }
         });
     }
-
     function loadCities(obj){
         var storeValues = localStorage.getItem('state')
         var parent = obj.closest('.form-group');
