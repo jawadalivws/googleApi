@@ -17,7 +17,7 @@ class CreateStatesTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
-            $table->forien('country_id')->references('id')->on('countries')->onDelete('cascade');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->timestamps();
         });
     }
