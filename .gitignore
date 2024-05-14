@@ -1,6 +1,6 @@
-/node_modules
+node_modules
 /composer.lock
 /public/storage
 /storage/app/public
-/vendor
+vendor
 .env

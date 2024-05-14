@@ -1,4 +1,5 @@
 @extends('layouts.layout')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 <style>
 .break-line {
     word-wrap: break-word;
@@ -48,6 +49,10 @@
     padding: 10px!important;
     line-height: 2.1!important;
     border-top: 1px solid #ddd;
+}
+
+.select2{
+    width:100%!important;
 }
 </style>
 
@@ -283,74 +288,6 @@
             </div>
         </div>
     </div>
-    <!-- market value area end -->
-    <!-- <div class="col-lg-12 mt-5">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="header-title">Thead info</h4>
-                <div class="single-table">
-                    <div class="table-responsive">
-                        <table class="table text-center">
-                            <thead class="text-uppercase bg-info">
-                                <tr class="text-white">
-                                    <th scope="col">Sr#</th>
-                                    <th scope="col">Keyword</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Compain ID</th>
-                                    <th scope="col">Created Date</th>
-                                    <th scope="col">action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(count($keywords) > 0)
-                                @foreach($keywords as $keyword)
-                                <tr>
-                                    <td scope="row">{{ $loop->iteration }}</td>
-                                    <td class="fixed-size-cell">{{ $keyword->name }}</td>
-                                    @if(count($keyword->keyword_records) > 0)
-
-                                    @php($class = 'label label-success')
-                                    @php($scan = 'Scanned')
-
-                                    @else
-
-                                    @php($class = 'label label-danger')
-                                    @php($scan = 'Unscanned')
-
-                                    @endif
-                                    <td class="fixed-size-cell">
-                                        <span for="" class="{{ $class }}">{{ $scan }}</span>
-                                    </td>
-                                    <td>
-                                        @php($compain = $keyword->compain_id == '001' ? 'Default
-                                        Compain':$keyword->compain_id)
-                                        {{ $compain }}
-                                    </td>
-                                    <td><span class="label label-success">{{ $keyword->created_at }}</span>
-                                    </td>
-                                    <td>
-                                        <a href="#" onclick="deleteKeyword({{$keyword->id}})"
-                                            class="btn btn-danger btn-sm"><i class="ti-trash"></i></a>
-                                        <a href="/keyword/detail/{{$keyword->id}}" class="btn btn-info btn-sm"><i
-                                                class="ti-eye"></i></a>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                @else
-                                <tr class="text-center">
-                                    <p style="font-size:22px;">No Data</p>
-                                </tr>
-                                @endif
-                            </tbody>
-                        </table>
-                        <div class="mt-4">
-                            {!! $keywords->links() !!}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
 </div>
 @endsection
 
@@ -358,7 +295,7 @@
 <!-- Modal -->
 <div class="modal fade" id="addKeywordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Add Keyword</h5>
@@ -366,7 +303,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="/add/keyword" method="post" id="keywordForm">
+            <form action="#" method="post" id="keywordForm">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
@@ -379,10 +316,20 @@
                         <input type="text" id="campaign_id" name="campaign_id" class="form-control"
                         value="{{old('campaign_id')}}" placeholder="Enter Campaign ID" style="" required="">
                     </div>
+                    <div class="country_section">
+                        <div class="form-group">
+                            <label for="country">Country</label>
+                            <select name="country[]" id="country" value="{{old('country[]')}}" onchange="loadStates(this)" class="form-select" multiple>
+                                @foreach($countries as $country)
+                                <option value="{{$country->id}}">{{$country->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
-                    <button type="submit" class="btn btn-primary">Add Keyword</button>
+                    <button type="submit" class="btn btn-primary" onclick="addKeyword(event)">Add Keyword</button>
                 </div>
             </form>
         </div>
@@ -429,4 +376,220 @@
 
 @section('script')
 @include('keyword_script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    var country_array = [];
+    var state_array = [];
+    var city_array = [];
+    $(document).ready(function(){
+        localStorage.clear();
+        $('#country').select2();
+    })
+
+    function addKeyword(event){
+        event.preventDefault();
+        var keyword = $('#keyword').val();
+        var campaign_id = $('#campaign_id').val();
+        var token = $("input[name=_token]").val();
+
+        $.ajax({
+            url: '/add/keyword',
+            method:'post',
+            data : {
+                keyword:keyword ,
+                campaign_id:campaign_id, 
+                country_array:country_array,
+                _token:token
+            },
+            success: function(response){
+                console.log(response);
+                if(response.success){
+
+                    swal.fire('Success' , 'Keyword added successfully.' , 'success');
+                    $('#addKeywordModal').modal('hide');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 600);
+                }else{
+                    console.log(response.messages);
+                }
+            },
+            error:function(err){
+                console.log(err);
+            }
+        });
+    }
+
+    function loadStates(obj){
+
+        var storeValues = localStorage.getItem('values')
+        var values = $('#country').val();
+        if(storeValues){
+            var storeArray = storeValues.split(",");
+            storeArray.forEach(data => {
+                if(values.includes(data)){
+                    console.log('its ok');
+                }else{
+                    $('#state_section'+data).remove();
+                    var indexToDelete = country_array.findIndex(country => country.id === Number(data));
+                    console.log(indexToDelete);
+                    country_array.splice(indexToDelete, 1);
+                }
+            })
+
+        }
+        localStorage.setItem('values' , values);
+
+        values.forEach(element => {
+            
+            if(storeValues != null && storeValues.includes(element)){
+                
+            }else{
+                country_array.push({id:Number(element) , states:[]});
+                $.ajax({
+                    url : '/load_states?country_id='+element,
+                    method: 'get',
+                    success:function(response){
+                        if(response.success && response.data.length > 0){
+                            // console.log(response.data);
+                            var country = response.data[0].country;
+                            // var states = response.data.map(state => ({id:state.id , country_id:state.country_id, cities:[]}));
+
+                            var html = '';
+                                html += '<div class="form-group p-3 border rounded border-info" id="state_section'+country.id+'">';
+                                html += '<h4>'+country.name+'</h4>';
+                                html += '<label>States</label>';
+                                html += '<select name="state[]" value="{{old("state[]")}}" id="state'+country.id+'" class="form-select state" onchange="loadCities(this)" multiple>';
+                            response.data.forEach(state => {
+                                
+                                    html += '<option value='+state.id+'>'+state.name+'</option>';
+                                    
+                            });
+                            html += '</select>';
+                            html += '</div>';
+                        }
+
+                        $('.country_section').append(html);
+                        $('.state').select2();
+                        console.log(country_array);
+
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                });
+                
+            }
+        });
+    }
+
+    function loadCities(obj){
+        var storeValues = localStorage.getItem('state')
+        var parent = obj.closest('.form-group');
+        var objId = obj.getAttribute('id');
+        var id = parent.getAttribute('id');
+        var countryId = parent.getAttribute('id').replace('state_section' , '');
+        var values = $('#'+objId).val();
+        if(storeValues){
+            var storeArray = storeValues.split(",");
+            storeArray.forEach(data => {
+                if(values.includes(data)){
+                    console.log('its ok');
+                }else{
+                    $('city_section'+data).remove();
+                }
+            })
+        }
+        localStorage.setItem('state' , values);
+        values.forEach(element => {
+
+            if(storeValues != null && storeValues.includes(element)){
+                
+            }else{
+
+                var countryIndex = country_array.findIndex(country => country.id === Number(countryId));
+                if (countryIndex !== -1) {
+                    // Push state to the corresponding country's states array
+                    country_array[countryIndex].states.push({
+                        id: element,
+                        country_id: Number(countryId),
+                        cities: []
+                    });
+                } else {
+                    alert()
+                    // If country not found, create new entry in country_array
+                    country_array.push({
+                        id: countryId,
+                        states: [{
+                            id: element,
+                            country_id: Number(countryId),
+                            cities: []
+                        }]
+                    });
+                }
+
+                $.ajax({
+                    url : '/load_cities?state_id='+element,
+                    method: 'get',
+                    success:function(response){
+                        if(response.success && response.data.length > 0){
+                            // console.log(response.data);
+                            var state = response.data[0].state;
+
+                            // Find the corresponding country in country_array
+                            
+                            var html = '';
+                                html += '<div class="form-group p-4 border border-secondary data-state="'+state.id+'" rounded mt-4" id="city_section'+state.id+'" data-country="'+state.country_id+'">';
+                                html += '<h4>'+response.data[0].state.name+'</h4>';
+                                html += '<label>City</label>';
+                                html += '<select name="city[]" value="{{old("city[]")}}" id="city'+state.id+'" onchange="addCityToArray(this)"  class="form-select city" multiple>';
+                            response.data.forEach(city => {
+                                
+                                    html += '<option value='+city.id+'>'+city.name+'</option>';
+                                    
+                            });
+                            html += '</select>';
+                            html += '</div>';
+                        }
+
+                        
+                        $('#'+id).append(html);
+                        $('.city').select2();
+
+                        console.log('country array' , country_array);
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                });
+                
+            }
+        });
+    }
+
+    function addCityToArray(obj){
+        var objId = obj.getAttribute('id');
+        var values = $('#'+objId).val();
+
+        var countryId = $('#'+objId).closest('.form-group').data('country');
+        var stateId = objId.replace('city','');
+
+        var cities = [];
+        cities = values.map(value=>{
+            return {
+                id:value
+            };
+        })
+        var countryIndex = country_array.findIndex(country => country.id === countryId);
+        if(countryIndex !== -1){
+            var stateIndex = country_array[countryIndex].states.findIndex(state => state.id == stateId)
+                if(stateIndex !== -1){
+                    country_array[countryIndex].states[stateIndex].cities = cities;
+                
+            }
+        }
+        console.log(country_array[countryIndex]);
+        console.log(country_array[countryIndex].states);
+    }
+</script>
 @endsection

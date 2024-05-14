@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Country;
 use Illuminate\Http\Request;
 use App\Models\Keyword;
+use App\Models\KeywordLocation;
 use App\Models\KeywordRecord;
 use Illuminate\Support\Facades\Http;
 use Goutte;
 use Rap2hpoutre\FastExcel\FastExcel;
 use GuzzleHttp\Client;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class KeywordController extends Controller
 {
@@ -59,38 +63,86 @@ class KeywordController extends Controller
 
         // $scanned_ids = KeywordRecord::pluck('keyword_id')->groupBy('keyword_id')->first();
         $total_email = KeywordRecord::count();
+        $countries = Country::with(['states' => function($query){
+            $query->with('cities');
+        }])->get();
+
         $email_sent = KeywordRecord::where('email_sent' , 1)->count();
         $pending_email = $total_email - $email_sent;
 
+        $data['keywords'] = $keywords;
+        $data['total_email'] = $total_email;
+        $data['email_sent'] = $email_sent;
+        $data['pending_email'] = $pending_email;
+        $data['countries'] = $countries;
+        
 
         // if($scanned_ids != null){
 
         //     $records = Keyword::whereIn('id', $scanned_ids)->get();
 
         // }
-        return view('dashboard', [
-            'keywords' => $keywords , 
-            'total_email' => $total_email , 
-            'email_sent' => $email_sent  , 
-            'pending_email' => $pending_email
-        ]);
+        return view('dashboard', $data);
     }
     public function addKeyword(Request $request)
     {
   
-        $request->validate([
-            'keyword' => 'required|unique:keywords,name',
-            'campaign_id' => 'required|numeric',
-        ]);
+        // dd($request->all());
+        DB::beginTransaction();
+        try {
+            
+            $validator = Validator::make($request->all() , [
+                'keyword' => 'required|unique:keywords,name',
+                'campaign_id' => 'required|numeric',
+                "country_array" => "required|array",
+                "country_array.*" => "required"
+            ]);
+    
+            if($validator->fails()){
+                return response()->json(['success' => false , 'messages' => $validator->getMessageBag()] , 422);
+            }
+            
+            $insert = Keyword::create([
+                'name' => $request->keyword,
+                'compain_id' => $request->campaign_id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+    // dd($request->country_array);
+            foreach($request->country_array as $country){
+                if(isset($country['states']) && count($country['states']) > 0){
+                    foreach($country['states'] as $state){
+                        if(isset($state['cities']) && count($state['cities']) > 0){
+                            foreach($state['cities'] as $city){
+                                KeywordLocation::create([
+                                    'keyword_id' => $insert->id,
+                                    'city_id' => $city['id'],
+                                ]);
+                            }
+                        }else{
+                            KeywordLocation::create([
+                                'keyword_id' => $insert->id,
+                                'state_id' => $state['id'],
+                            ]); 
+                        }
+                    }
+                }else{
+    
+                    KeywordLocation::create([
+                        'keyword_id' => $insert->id,
+                        'country_id' => $country['id'],
+                    ]); 
+                }
+            }
+    
+            DB::commit();
+            return response()->json(['success' => true  , 'message' => 'Keyword Added successfully.'] ,200);
+        } catch (\Throwable $th) {
+            //throw $th;
+            DB::rollBack();
+            return response()->json(['success' => false  , 'message' => $th->getMessage()] ,200);
+        }
         
-        $insert = Keyword::insert([
-            'name' => $request->keyword,
-            'compain_id' => $request->campaign_id,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-
-        return back()->with('success' , 'Word Added Successfully.');
         // for ajax response
         // if($insert){
         //     $data['success'] = true;
@@ -123,23 +175,24 @@ class KeywordController extends Controller
 
     public function deleteKeyword(Request $request)
     {
+        DB::beginTransaction();
         $id = $request->id;
         $exist = Keyword::where('id' , $id)->first();
 
         if($exist)
         {
             $delete = Keyword::where('id' , $id)->delete();
+            KeywordLocation::where('keyword_id' , $id)->delete();
 
-            if($delete)
-            {
-                $data['success'] = true;
-                $data['message'] = 'Keyword deleted Successfully.';
-                return response()->json($data);
-            }
-
-            return response()->json('error' , 'Something went wrong');
+            $data['success'] = true;
+            $data['message'] = 'Keyword deleted Successfully.';
+            DB::commit();
+            return response()->json($data);
 
         }
+
+        DB::rollBack();
+        return response()->json();
     }
     
     public function keywordDetail($id)
