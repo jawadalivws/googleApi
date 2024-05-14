@@ -12,7 +12,7 @@ class importTable extends Command
      *
      * @var string
      */
-    protected $signature = 'importTable';
+    protected $signature = 'import:table {tableName}';
 
     /**
      * The console command description.
@@ -38,7 +38,7 @@ class importTable extends Command
      */
     public function handle()
     {
-        $tableName = $this->argument('countries');
+        $tableName = $this->argument('tableName');
 
         $sqlDumpPath = storage_path('tables/'.$tableName.'.sql');
 
