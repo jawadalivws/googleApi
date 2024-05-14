@@ -38,7 +38,7 @@ class importTable extends Command
      */
     public function handle()
     {
-        $tableName = $this->argument('countires');
+        $tableName = $this->argument('countries');
 
         $sqlDumpPath = storage_path('tables/'.$tableName.'.sql');
 
@@ -47,7 +47,7 @@ class importTable extends Command
         DB::unprepared($sql);
 
         $this->info("Table $tableName imported successfully!");
-        
+
         return 0;
     }
 }
