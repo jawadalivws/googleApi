@@ -4971,7 +4971,7 @@ INSERT INTO `states` (`id`, `name`, `country_id`, `country_code`, `type`, `creat
 (5060, 'Hauts-de-Seine', 75, 'FR', 'metropolitan department', '2021-12-11 19:33:31', '2021-12-11 20:20:47', 1),
 (5061, 'Seine-Saint-Denis', 75, 'FR', 'metropolitan department', '2021-12-11 19:33:32', '2021-12-11 20:21:12', 1),
 (5062, 'Val-de-Marne', 75, 'FR', 'metropolitan department', '2021-12-11 19:33:33', '2022-03-13 16:31:45', 1),
-(5063, 'Val-d\'Oise', 75, 'FR', 'metropolitan department', '2021-12-11 19:33:34', '2021-12-11 20:21:42', 1),
+(5063, 'Val-dOise', 75, 'FR', 'metropolitan department', '2021-12-11 19:33:34', '2021-12-11 20:21:42', 1),
 (5064, 'Clipperton', 75, 'FR', 'dependency', '2021-12-11 17:51:55', '2021-12-11 18:12:43', 1);
 INSERT INTO `states` (`id`, `name`, `country_id`, `country_code`, `type`, `created_at`, `updated_at`, `flag`) VALUES
 (5065, 'French Southern and Antarctic Lands', 75, 'FR', 'overseas territory', '2021-12-11 17:52:02', '2021-12-11 18:13:21', 1),
@@ -5169,6 +5169,3 @@ ALTER TABLE `states`
   ADD CONSTRAINT `country_region_final` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`);
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
