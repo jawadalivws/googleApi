@@ -314,7 +314,6 @@ INSERT INTO `countries` (`id`, `name`, `iso3`, `numeric_code`, `iso2`, `phonecod
 --
 -- AUTO_INCREMENT for table `countries`
 --
-ALTER TABLE `countries`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
+
 COMMIT;
 
