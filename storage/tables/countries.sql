@@ -308,18 +308,6 @@ INSERT INTO `countries` (`id`, `name`, `iso3`, `numeric_code`, `iso2`, `phonecod
 (250, 'Sint Maarten (Dutch part)', 'SXM', '534', 'SX', '1721', 'Philipsburg', 'ANG', 'Netherlands Antillean guilder', 'ƒ', 'Americas', 2, 'Caribbean', 7, 'Sint Maarten', '[{\"zoneName\":\"America/Anguilla\",\"gmtOffset\":-14400,\"gmtOffsetName\":\"UTC-04:00\",\"abbreviation\":\"AST\",\"tzName\":\"Atlantic Standard Time\"}]', '2020-12-06 01:03:39', '2023-08-09 21:23:19', 1);
 
 --
--- Indexes for dumped tables
---
-
---
--- Indexes for table `countries`
---
-ALTER TABLE `countries`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `country_continent` (`region_id`),
-  ADD KEY `country_subregion` (`subregion_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -328,16 +316,5 @@ ALTER TABLE `countries`
 --
 ALTER TABLE `countries`
   MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `countries`
---
-ALTER TABLE `countries`
-  ADD CONSTRAINT `country_continent_final` FOREIGN KEY (`region_id`) REFERENCES `regions` (`id`),
-  ADD CONSTRAINT `country_subregion_final` FOREIGN KEY (`subregion_id`) REFERENCES `subregions` (`id`);
 COMMIT;
 
