@@ -5155,8 +5155,8 @@ ALTER TABLE `states`
 --
 -- AUTO_INCREMENT for table `states`
 --
-ALTER TABLE `states`
-  MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5228;
+-- ALTER TABLE `states`
+--   MODIFY `id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5228;
 
 --
 -- Constraints for dumped tables
@@ -5165,7 +5165,7 @@ ALTER TABLE `states`
 --
 -- Constraints for table `states`
 --
-ALTER TABLE `states`
-  ADD CONSTRAINT `country_region_final` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`);
+-- ALTER TABLE `states`
+--   ADD CONSTRAINT `country_region_final` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`);
 COMMIT;
 
