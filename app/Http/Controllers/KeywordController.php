@@ -63,9 +63,7 @@ class KeywordController extends Controller
 
         // $scanned_ids = KeywordRecord::pluck('keyword_id')->groupBy('keyword_id')->first();
         $total_email = KeywordRecord::count();
-        $countries = Country::with(['states' => function($query){
-            $query->with('cities');
-        }])->get();
+        $countries = Country::get();
 
         $email_sent = KeywordRecord::where('email_sent' , 1)->count();
         $pending_email = $total_email - $email_sent;
