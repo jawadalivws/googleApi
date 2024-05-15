@@ -1,4 +1,4 @@
-INSERT INTO `cities` (`id`, `name`, `state_id`, `state_code`, `country_id`, `country_code`, `created_at`, `updated_at`, `flag`) VALUES
+INSERT INTO `cities` (`id`, `name`, `state_id`, `state_code`, `country_id`, `country_code`, `created_at`, `flag`) VALUES
 (149322, 'Baranivka', 5071, '53', 230, 'UA', '2024-05-08 13:08:34',  1),
 (149323, 'Barashi', 5071, '53', 230, 'UA', '2024-05-08 13:08:34',  1),
 (149324, 'Bazar', 5071, '53', 230, 'UA', '2024-05-08 13:08:34',  1),
