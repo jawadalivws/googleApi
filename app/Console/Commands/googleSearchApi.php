@@ -117,7 +117,7 @@ class googleSearchApi extends Command
                             // \Log::info($data);
         
                             // dd($data);
-                            dd('keyword',$name);
+                            dump('keyword',$name);
         
                             $allEmails = array();
                             $flag = false;
