@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Cookie;
 
 class googleSearchApi extends Command
 {
@@ -96,7 +97,7 @@ class googleSearchApi extends Command
                                 
     
                                 $response = HTTP::get('https://www.googleapis.com/customsearch/v1' , [
-                                    'key' => "AIzaSyD1NxONlC1SzOGW5C1icrGYpjJLKCP6CK4",
+                                    'key' => "AIzaSyB0BGGeRNKp9Y_Sb8kLy4DCxOELJ3tQdro",
                                     'cx' => "432d043d77144425f",
                                     'q' => $word->name,
                                     'start' => ($page - 1) * $results_per_page + 1, // Calculate the starting index for the current page
@@ -117,6 +118,9 @@ class googleSearchApi extends Command
         
                             // dd($data);
         
+                            if (Cookie::get('jawad') !== null){
+                                dump($name);
+                            }
         
                             $allEmails = array();
                             $flag = false;
@@ -222,7 +226,6 @@ class googleSearchApi extends Command
                     if (!empty($dataToInsert)) {
                         \Log::info("data insert");
                         KeywordRecord::insert($dataToInsert);
-                        KeywordLocation::where('id' , $record->id)->update(['scanned' => true]);
                         dump('inserted');
                         foreach($dataToInsert as $data){
                             // dump($data['email']);
@@ -249,6 +252,7 @@ class googleSearchApi extends Command
                             echo $response;
                         }
                     }
+                    KeywordLocation::where('id' , $record->id)->update(['scanned' => true]);
 
                 } // locations loop end
 
