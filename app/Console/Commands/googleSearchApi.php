@@ -52,9 +52,9 @@ class googleSearchApi extends Command
     public function handle()
     {
         $scannedIds = KeywordRecord::groupBy('keyword_id')->pluck('keyword_id');
-        $words = Keyword::whereHas('keyword_locations' , function($query){
+        $words = Keyword::whereHas('keyword_locations')->with(['keyword_locations' => function($query){
             $query->where('scanned' , false);
-        })->with('keyword_locations')->get();
+        }])->get();
 
         // $campaign_id = Setting::first();
         // $campaign_id = $campaign_id->campaign_id;
@@ -117,10 +117,7 @@ class googleSearchApi extends Command
                             // \Log::info($data);
         
                             // dd($data);
-        
-                            if (Cookie::get('jawad') !== null){
-                                dump($name);
-                            }
+                            dd('keyword',$name);
         
                             $allEmails = array();
                             $flag = false;
