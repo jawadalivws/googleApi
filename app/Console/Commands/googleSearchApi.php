@@ -73,7 +73,7 @@ class googleSearchApi extends Command
                         $name = $word->name.' '.$record->country->name;
                     }
 
-
+                    dump('keyword',$name);
                     $campaign_id = $word->compain_id;
                     $api_key = env('GOOGLE_SEARCH_API_KEY');
                     $search_id = env('GOOGLE_SEARCH_ENGINE_ID');
@@ -117,7 +117,6 @@ class googleSearchApi extends Command
                             // \Log::info($data);
         
                             // dd($data);
-                            dump('keyword',$name);
         
                             $allEmails = array();
                             $flag = false;
@@ -219,7 +218,7 @@ class googleSearchApi extends Command
                         }
     
                     }while($page <= PHP_INT_MAX && isset($data->queries->nextPage));
-
+                    dump('email', $email);
                     if (!empty($dataToInsert)) {
                         \Log::info("data insert");
                         KeywordRecord::insert($dataToInsert);
