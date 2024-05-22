@@ -52,25 +52,25 @@ class googleSearchApi extends Command
     public function handle()
     {
         $scannedIds = KeywordRecord::groupBy('keyword_id')->pluck('keyword_id');
-        $words = Keyword::whereHas('keyword_locations')->with(['keyword_locations' => function($query){
+        $words = Keyword::whereHas('keyword_locations' , function($query){
             $query->where('scanned' , false);
-        }])->get();
+        })->with('keyword_locations')->get();
 
         // $campaign_id = Setting::first();
         // $campaign_id = $campaign_id->campaign_id;
-        dump('first word' , $words);
+        // dump('first word' , $words);
         if(count($words) > 0){
             foreach($words as $word){
                 foreach($word->keyword_locations as $record){
                     if($record->city){
 
-                        $name = $word->name.' '.$record->city->name;
+                        $name = $word->name.' in '.$record->city->name;
                     }
                     if($record->state){
-                        $name = $word->name.' '.$record->state->name;
+                        $name = $word->name.' in '.$record->state->name;
                     }
                     if($record->country){
-                        $name = $word->name.' '.$record->country->name;
+                        $name = $word->name.' in '.$record->country->name;
                     }
 
                     dump('keyword',$name);
@@ -97,7 +97,7 @@ class googleSearchApi extends Command
                                 
     
                                 $response = HTTP::get('https://www.googleapis.com/customsearch/v1' , [
-                                    'key' => "AIzaSyBLNws_02Wl2y53UCoOv3KKu0RVDalh4zs",
+                                    'key' => "AIzaSyD1NxONlC1SzOGW5C1icrGYpjJLKCP6CK4",
                                     'cx' => "432d043d77144425f",
                                     'q' => $word->name,
                                     'start' => ($page - 1) * $results_per_page + 1, // Calculate the starting index for the current page
@@ -182,8 +182,8 @@ class googleSearchApi extends Command
             
                                             //     }
                                             // }
+                                            dump($email);
                                             if($email && !in_array($email , $email_array)){
-                                                dump($email);
                                                 $email_array[] = $email;
                                                 $dataToInsert[] = [
                                                     'keyword_id' => $word->id,
