@@ -54,7 +54,9 @@ class googleSearchApi extends Command
         $scannedIds = KeywordRecord::groupBy('keyword_id')->pluck('keyword_id');
         $words = Keyword::whereHas('keyword_locations' , function($query){
             $query->where('scanned' , false);
-        })->with('keyword_locations')->get();
+        })->with(['keyword_locations' => function($query){
+            $query->where('scanned' , false);
+        }])->get();
 
         // $campaign_id = Setting::first();
         // $campaign_id = $campaign_id->campaign_id;
@@ -248,8 +250,8 @@ class googleSearchApi extends Command
                             echo $response;
                         }
                     }
-                    KeywordLocation::where('id' , $record->id)->update(['scanned' => true]);
-
+                    $update = KeywordLocation::where('id' , $record->id)->update(['scanned' => true]);
+                    dump($update);
                 } // locations loop end
 
             }  // keyword loop end
