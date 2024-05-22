@@ -58,7 +58,7 @@ class googleSearchApi extends Command
 
         // $campaign_id = Setting::first();
         // $campaign_id = $campaign_id->campaign_id;
-
+        dump('first word' , $words[0]->name);
         if(count($words) > 0){
             foreach($words as $word){
                 foreach($word->keyword_locations as $record){
