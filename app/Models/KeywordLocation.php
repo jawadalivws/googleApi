@@ -25,4 +25,9 @@ class KeywordLocation extends Model
     {
         return $this->hasOne(Country::class, 'id' , 'country_id');
     }
+
+    public function kerword_records()
+    {
+        return $this->hasManye(KeywordRecord::class, 'keyword_location' , 'id');
+    }
 }
