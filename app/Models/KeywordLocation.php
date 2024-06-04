@@ -28,6 +28,6 @@ class KeywordLocation extends Model
 
     public function kerword_records()
     {
-        return $this->hasManye(KeywordRecord::class, 'keyword_location' , 'id');
+        return $this->hasMany(KeywordRecord::class, 'keyword_location' , 'id');
     }
 }
