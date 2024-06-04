@@ -58,9 +58,6 @@ class googleSearchApi extends Command
             $query->where('scanned' , false);
         }])->get();
 
-        // $campaign_id = Setting::first();
-        // $campaign_id = $campaign_id->campaign_id;
-        // dump('first word' , $words);
         if(count($words) > 0){
             foreach($words as $word){
                 foreach($word->keyword_locations as $record){
@@ -101,7 +98,7 @@ class googleSearchApi extends Command
                                 $response = HTTP::get('https://www.googleapis.com/customsearch/v1' , [
                                     'key' => "AIzaSyD1NxONlC1SzOGW5C1icrGYpjJLKCP6CK4",
                                     'cx' => "432d043d77144425f",
-                                    'q' => $word->name,
+                                    'q' => $name,
                                     'start' => ($page - 1) * $results_per_page + 1, // Calculate the starting index for the current page
                                     'num' => $results_per_page,
                                 ]);
@@ -184,6 +181,7 @@ class googleSearchApi extends Command
             
                                             //     }
                                             // }
+
                                             dump($email);
                                             if($email && !in_array($email , $email_array)){
                                                 $email_array[] = $email;
@@ -251,6 +249,16 @@ class googleSearchApi extends Command
                         }
                     }
                     $update = KeywordLocation::where('id' , $record->id)->update(['scanned' => true]);
+                    $exists = KeywordLocation::where('id' , $record->id)->where('scanned' , false)->first();
+                    if(!$exists){
+                        KeywordRecord::create([
+                        'keyword_id' => $word->id,
+                        'keyword_location' => $record->id,
+                        'email' => 'No Email',
+                        'title' => $item->title,
+                        'url' => '',
+                    ]);
+                    }
                     dump($update);
                 } // locations loop end
 
