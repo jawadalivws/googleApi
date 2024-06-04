@@ -96,7 +96,7 @@ class googleSearchApi extends Command
                                 
     
                                 $response = HTTP::get('https://www.googleapis.com/customsearch/v1' , [
-                                    'key' => "AIzaSyD1NxONlC1SzOGW5C1icrGYpjJLKCP6CK4",
+                                    'key' => "AIzaSyBLNws_02Wl2y53UCoOv3KKu0RVDalh4zs",
                                     'cx' => "432d043d77144425f",
                                     'q' => $name,
                                     'start' => ($page - 1) * $results_per_page + 1, // Calculate the starting index for the current page
@@ -223,30 +223,30 @@ class googleSearchApi extends Command
                         \Log::info("data insert");
                         KeywordRecord::insert($dataToInsert);
                         dump('inserted');
-                        // foreach($dataToInsert as $data){
-                        //     // dump($data['email']);
-                        //     $curl = curl_init();
+                        foreach($dataToInsert as $data){
+                            // dump($data['email']);
+                            $curl = curl_init();
     
-                        //     curl_setopt_array($curl, array(
-                        //     CURLOPT_URL => 'https://email.updatemedaily.com/campaigns/add_campaign_email',
-                        //     CURLOPT_RETURNTRANSFER => true,
-                        //     CURLOPT_ENCODING => '',
-                        //     CURLOPT_MAXREDIRS => 10,
-                        //     CURLOPT_TIMEOUT => 0,
-                        //     CURLOPT_FOLLOWLOCATION => true,
-                        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                        //     CURLOPT_CUSTOMREQUEST => 'POST',
-                        //     CURLOPT_POSTFIELDS => array('campaign_id' => $campaign_id,'contact_email' => $data['email']),
-                        //     CURLOPT_HTTPHEADER => array(
-                        //         'Cookie: ci_session=p24kmm1qgsn7dnnlilifndr6a7s3g7kc'
-                        //     ),
-                        //     ));
+                            curl_setopt_array($curl, array(
+                            CURLOPT_URL => 'https://email.updatemedaily.com/campaigns/add_campaign_email',
+                            CURLOPT_RETURNTRANSFER => true,
+                            CURLOPT_ENCODING => '',
+                            CURLOPT_MAXREDIRS => 10,
+                            CURLOPT_TIMEOUT => 0,
+                            CURLOPT_FOLLOWLOCATION => true,
+                            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                            CURLOPT_CUSTOMREQUEST => 'POST',
+                            CURLOPT_POSTFIELDS => array('campaign_id' => $campaign_id,'contact_email' => $data['email']),
+                            CURLOPT_HTTPHEADER => array(
+                                'Cookie: ci_session=p24kmm1qgsn7dnnlilifndr6a7s3g7kc'
+                            ),
+                            ));
                     
-                        //     $response = curl_exec($curl);
+                            $response = curl_exec($curl);
                     
-                        //     curl_close($curl);
-                        //     echo $response;
-                        // }
+                            curl_close($curl);
+                            echo $response;
+                        }
                     }
                     $update = KeywordLocation::where('id' , $record->id)->update(['scanned' => true]);
                     
