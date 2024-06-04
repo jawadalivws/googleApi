@@ -254,7 +254,7 @@ class googleSearchApi extends Command
                         KeywordRecord::create([
                         'keyword_id' => $word->id,
                         'keyword_location' => $record->id,
-                        'email' => 'No Email',
+                        'email' => "No Email",
                         'title' => $item->title,
                         'url' => '',
                     ]);
