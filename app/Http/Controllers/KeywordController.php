@@ -31,6 +31,7 @@ class KeywordController extends Controller
             session()->forget('createdFrom');
             session()->forget('createdTo');
 
+            $query = $query->with('keyword_records');
             if(!empty($request->searchKeyword)){
 
                 Session::put('searchKeyword',$request->searchKeyword);
@@ -58,7 +59,7 @@ class KeywordController extends Controller
             session()->forget('createdFrom');
             session()->forget('createdTo');
 
-            $keywords = Keyword::latest()->paginate(20);
+            $keywords = Keyword::with('keyword_records')->latest()->paginate(20);
         }
 
         // $scanned_ids = KeywordRecord::pluck('keyword_id')->groupBy('keyword_id')->first();
