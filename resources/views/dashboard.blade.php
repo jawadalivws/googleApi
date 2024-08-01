@@ -495,7 +495,7 @@
                 if(values.includes(data)){
                     console.log('its ok');
                 }else{
-                    $('city_section'+data).remove();
+                    $('#city_section'+data).remove();
                 }
             })
         }
