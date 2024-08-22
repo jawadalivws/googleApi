@@ -264,6 +264,8 @@ class googleSearchApi extends Command
                         ]);
                     }
             }  // keyword loop end
+        }else{
+            dump('no word');
         }
         
         // dd("jawad");
