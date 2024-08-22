@@ -24,6 +24,11 @@ class Keyword extends Model
         return $this->hasMany(KeywordLocation::class , 'keyword_id' , 'id');
     }
 
+    public function keyword_location()
+    {
+        return $this->hasOne(KeywordLocation::class , 'keyword_id' , 'id');
+    }
+
     // public function country()
     // {
     //     return $this->belongsToMany(Country::class , 'keyword_locations' , 'keyword_id' , 'country_id');

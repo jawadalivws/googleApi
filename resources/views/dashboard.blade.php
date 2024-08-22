@@ -246,7 +246,7 @@
                                 <tr>
                                     <td class="align-middle">{{ $loop->iteration }}</td>
                                     <td class="align-middle">{{ $keyword->name }}</td>
-                                    @if(count($keyword->keyword_records) > 0)
+                                    @if($keyword->keyword_location && $keyword->keyword_location->scanned)
 
                                     @php($class = 'label label-success')
                                     @php($scan = 'Scanned')
